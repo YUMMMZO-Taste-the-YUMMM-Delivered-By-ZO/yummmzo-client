@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-interface RestaurantDetailSearchBarComponentProps {
-    showSearch: boolean;
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-}
+import type { RestaurantDetailSearchBarComponentProps } from "@/types/restaurantDetailTypes";
 
 export const RestaurantDetailSearchBarComponent = ({
     showSearch,

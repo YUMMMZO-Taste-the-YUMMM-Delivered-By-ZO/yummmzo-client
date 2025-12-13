@@ -5,16 +5,7 @@ import {
     AccordionItem,
     AccordionTrigger,
 } from "@/components/ui/accordion";
-
-interface FAQ {
-    question: string;
-    answer: string;
-    category: string;
-}
-
-interface FAQAccordionComponentProps {
-    faqs: FAQ[];
-}
+import type { FAQAccordionComponentProps } from "@/types/helpSupportTypes";
 
 export const FAQAccordionComponent = ({ faqs }: FAQAccordionComponentProps) => {
     return (

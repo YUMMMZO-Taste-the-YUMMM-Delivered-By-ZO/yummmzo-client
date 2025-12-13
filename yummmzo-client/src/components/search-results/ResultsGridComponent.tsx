@@ -1,18 +1,5 @@
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
-
-interface Restaurant {
-    id: number;
-    name: string;
-    cuisine: string;
-    rating: number;
-    deliveryTime: string;
-    image: string;
-    deliveryFee: number;
-}
-
-interface ResultsGridComponentProps {
-    restaurants: Restaurant[];
-}
+import type { ResultsGridComponentProps } from "@/types/searchResultsTypes";
 
 export const ResultsGridComponent = ({ restaurants }: ResultsGridComponentProps) => {
     return (

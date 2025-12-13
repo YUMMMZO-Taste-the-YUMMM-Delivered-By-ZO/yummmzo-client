@@ -7,14 +7,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
-
-interface FiltersPanelComponentProps {
-    showFilters: boolean;
-    sortBy: string;
-    setSortBy: (value: string) => void;
-    priceRange: number[];
-    setPriceRange: (value: number[]) => void;
-}
+import type { FiltersPanelComponentProps } from "@/types/searchResultsTypes";
 
 export const FiltersPanelComponent = ({
     showFilters,

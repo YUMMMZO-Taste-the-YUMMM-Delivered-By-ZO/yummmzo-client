@@ -2,13 +2,7 @@ import { Link } from "react-router-dom";
 import { ArrowLeft, Search, SlidersHorizontal, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface SearchResultsHeaderComponentProps {
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-    showFilters: boolean;
-    setShowFilters: (show: boolean) => void;
-}
+import type { SearchResultsHeaderComponentProps } from "@/types/searchResultsTypes";
 
 export const SearchResultsHeaderComponent = ({
     searchQuery,

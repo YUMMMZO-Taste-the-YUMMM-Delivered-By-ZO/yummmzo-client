@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface ManageAddressesHeaderComponentProps {
-    showForm: boolean;
-    setShowForm: (show: boolean) => void;
-}
+import type { ManageAddressesHeaderComponentProps } from "@/types/manageAddressTypes";
 
 export const ManageAddressesHeaderComponent = ({
     showForm,

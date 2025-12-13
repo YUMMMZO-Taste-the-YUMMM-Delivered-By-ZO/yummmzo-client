@@ -1,12 +1,7 @@
 import { motion } from "framer-motion";
 import { Search, X } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-interface SearchBarComponentProps {
-    showSearch: boolean;
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-}
+import type { SearchBarComponentProps } from "@/types/homeTypes";
 
 export const SearchBarComponent = ({
     showSearch,

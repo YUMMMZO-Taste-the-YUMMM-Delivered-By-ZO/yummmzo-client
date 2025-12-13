@@ -2,12 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Star, Clock, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { Restaurant } from "@/data/mockData";
-
-interface RestaurantCardProps {
-    restaurant: Restaurant;
-    index?: number;
-}
+import type { RestaurantCardProps } from "@/types/homeTypes";
 
 export function RestaurantCard({ restaurant, index = 0 }: RestaurantCardProps) {
     return (

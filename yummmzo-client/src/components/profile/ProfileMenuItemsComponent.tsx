@@ -7,19 +7,8 @@ import {
     Settings,
     HelpCircle,
     ChevronRight,
-    type LucideIcon,
 } from "lucide-react";
-
-interface MenuItem {
-    icon: LucideIcon;
-    label: string;
-    href: string;
-    badge?: number;
-}
-
-interface ProfileMenuItemsComponentProps {
-    addressesCount: number;
-}
+import type { MenuItem, ProfileMenuItemsComponentProps } from "@/types/profileTypes";
 
 export const ProfileMenuItemsComponent = ({ addressesCount }: ProfileMenuItemsComponentProps) => {
     const menuItems: MenuItem[] = [

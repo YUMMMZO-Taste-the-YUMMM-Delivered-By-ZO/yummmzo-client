@@ -2,19 +2,7 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { MapPin, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Address {
-    type: string;
-    isDefault: boolean;
-    address: string;
-    city: string;
-    state: string;
-    pincode: string;
-}
-
-interface DeliveryAddressComponentProps {
-    address?: Address;
-}
+import type { DeliveryAddressComponentProps } from "@/types/checkoutTypes";
 
 export const DeliveryAddressComponent = ({ address }: DeliveryAddressComponentProps) => {
     return (

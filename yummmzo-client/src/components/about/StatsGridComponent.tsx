@@ -1,11 +1,6 @@
+import type { Stat } from "@/types/aboutTypes";
 import { motion } from "framer-motion";
-import { Store, Users, ShoppingBag, type LucideIcon, } from "lucide-react";
-
-interface Stat {
-    icon: LucideIcon;
-    value: string;
-    label: string;
-}
+import { Store, Users, ShoppingBag } from "lucide-react";
 
 export const StatsGridComponent = () => {
     const stats: Stat[] = [

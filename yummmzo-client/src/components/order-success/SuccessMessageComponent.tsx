@@ -1,8 +1,5 @@
+import type { SuccessMessageComponentProps } from "@/types/orderSuccessTypes";
 import { motion } from "framer-motion";
-
-interface SuccessMessageComponentProps {
-    orderId?: string;
-}
 
 export const SuccessMessageComponent = ({ orderId }: SuccessMessageComponentProps) => {
     return (

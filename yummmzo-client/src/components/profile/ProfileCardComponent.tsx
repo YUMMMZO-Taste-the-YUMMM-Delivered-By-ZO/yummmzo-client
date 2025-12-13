@@ -1,14 +1,5 @@
+import type { ProfileCardComponentProps } from "@/types/profileTypes";
 import { motion } from "framer-motion";
-
-interface User {
-    name: string;
-    email: string;
-    phone: string;
-}
-
-interface ProfileCardComponentProps {
-    user: User;
-}
 
 export const ProfileCardComponent = ({ user }: ProfileCardComponentProps) => {
     return (

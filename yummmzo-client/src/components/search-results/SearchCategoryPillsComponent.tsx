@@ -1,8 +1,4 @@
-interface SearchCategoryPillsComponentProps {
-    categories: string[];
-    selectedCategory: string;
-    setSelectedCategory: (category: string) => void;
-}
+import type { SearchCategoryPillsComponentProps } from "@/types/searchResultsTypes";
 
 export const SearchCategoryPillsComponent = ({
     categories,

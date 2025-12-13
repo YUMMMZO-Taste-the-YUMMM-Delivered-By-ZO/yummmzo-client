@@ -2,22 +2,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-
-interface FormData {
-    type: "home" | "work" | "other";
-    address: string;
-    city: string;
-    state: string;
-    pincode: string;
-    isDefault: boolean;
-}
-
-interface AddAddressFormComponentProps {
-    showForm: boolean;
-    formData: FormData;
-    setFormData: (data: FormData) => void;
-    onSave: () => void;
-}
+import type { AddAddressFormComponentProps } from "@/types/manageAddressTypes";
 
 export const AddAddressFormComponent = ({
     showForm,

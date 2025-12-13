@@ -1,17 +1,5 @@
+import type { CheckoutOrderSummaryComponentProps } from "@/types/checkoutTypes";
 import { motion } from "framer-motion";
-
-interface CartItem {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-    quantity: number;
-}
-
-interface CheckoutOrderSummaryComponentProps {
-    items: CartItem[];
-    total: number;
-}
 
 export const CheckoutOrderSummaryComponent = ({ items, total }: CheckoutOrderSummaryComponentProps) => {
     return (

@@ -1,16 +1,6 @@
+import type { PaymentMethod, PaymentMethodComponentProps } from "@/types/checkoutTypes";
 import { motion } from "framer-motion";
-import { CreditCard, Wallet, Banknote, Check, type LucideIcon } from "lucide-react";
-
-interface PaymentMethod {
-    id: string;
-    name: string;
-    icon: LucideIcon;
-}
-
-interface PaymentMethodComponentProps {
-    selectedPayment: string;
-    setSelectedPayment: (id: string) => void;
-}
+import { CreditCard, Wallet, Banknote, Check } from "lucide-react";
 
 export const PaymentMethodComponent = ({
     selectedPayment,

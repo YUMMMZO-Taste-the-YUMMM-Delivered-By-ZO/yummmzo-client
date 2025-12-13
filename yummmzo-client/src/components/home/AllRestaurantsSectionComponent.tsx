@@ -1,22 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
-
-interface Restaurant {
-    id: number;
-    name: string;
-    cuisine: string;
-    rating: number;
-    deliveryTime: string;
-    image: string;
-    deliveryFee: number;
-}
-
-interface AllRestaurantsSectionComponentProps {
-    filteredRestaurants: Restaurant[];
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-    setActiveCategory: (category: string) => void;
-}
+import type { AllRestaurantsSectionComponentProps } from "@/types/homeTypes";
 
 export const AllRestaurantsSectionComponent = ({
     filteredRestaurants,

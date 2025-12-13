@@ -1,10 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-interface FavoritesSearchComponentProps {
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-}
+import type { FavoritesSearchComponentProps } from "@/types/favouritesTypes";
 
 export const FavoritesSearchComponent = ({
     searchQuery,

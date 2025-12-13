@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { Navigation, RotateCcw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface OrderActionButtonsComponentProps {
-    orderId: string;
-    orderStatus: string;
-}
+import type { OrderActionButtonsComponentProps } from "@/types/orderDetailsTypes";
 
 export const OrderActionButtonsComponent = ({ orderId, orderStatus }: OrderActionButtonsComponentProps) => {
     return (

@@ -1,3 +1,4 @@
+import type { OrderStatusTimelineComponentProps, TimelineItem } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
 import {
     CheckCircle,
@@ -5,19 +6,7 @@ import {
     Package,
     Truck,
     Home,
-    type LucideIcon,
 } from "lucide-react";
-
-interface TimelineItem {
-    step: string;
-    time: string;
-    completed: boolean;
-    icon: LucideIcon;
-}
-
-interface OrderStatusTimelineComponentProps {
-    orderStatus: string;
-}
 
 export const OrderStatusTimelineComponent = ({ orderStatus }: OrderStatusTimelineComponentProps) => {
     const timeline: TimelineItem[] = [

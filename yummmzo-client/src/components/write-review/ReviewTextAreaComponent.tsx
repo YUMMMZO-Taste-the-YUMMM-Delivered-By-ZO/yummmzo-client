@@ -1,11 +1,6 @@
 import { motion } from "framer-motion";
 import { Textarea } from "@/components/ui/textarea";
-
-interface ReviewTextAreaComponentProps {
-    review: string;
-    setReview: (review: string) => void;
-    maxChars: number;
-}
+import type { ReviewTextAreaComponentProps } from "@/types/writeReviewTypes";
 
 export const ReviewTextAreaComponent = ({
     review,

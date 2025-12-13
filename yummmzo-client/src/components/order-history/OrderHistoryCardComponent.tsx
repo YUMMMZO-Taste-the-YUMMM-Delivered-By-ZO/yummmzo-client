@@ -3,20 +3,7 @@ import { motion } from "framer-motion";
 import { CheckCircle, RotateCcw, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-interface Order {
-    id: string;
-    restaurantImage: string;
-    restaurantName: string;
-    date: string;
-    items: any[];
-    total: number;
-}
-
-interface OrderHistoryCardComponentProps {
-    order: Order;
-    index: number;
-}
+import type { OrderHistoryCardComponentProps } from "@/types/orderHistoryTypes";
 
 export const OrderHistoryCardComponent = ({ order, index }: OrderHistoryCardComponentProps) => {
     return (

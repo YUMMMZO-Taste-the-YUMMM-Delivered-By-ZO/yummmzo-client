@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface WriteReviewHeaderComponentProps {
-    restaurantId: string | number;
-}
+import type { WriteReviewHeaderComponentProps } from "@/types/writeReviewTypes";
 
 export const WriteReviewHeaderComponent = ({ restaurantId }: WriteReviewHeaderComponentProps) => {
     return (

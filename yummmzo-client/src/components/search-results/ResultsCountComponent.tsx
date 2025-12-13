@@ -1,7 +1,4 @@
-interface ResultsCountComponentProps {
-    searchQuery: string;
-    resultsCount: number;
-}
+import type { ResultsCountComponentProps } from "@/types/searchResultsTypes";
 
 export const ResultsCountComponent = ({ searchQuery, resultsCount }: ResultsCountComponentProps) => {
     return (

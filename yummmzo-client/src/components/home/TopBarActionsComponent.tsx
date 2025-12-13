@@ -2,11 +2,7 @@ import { Search, Bell, Sun, Moon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useTheme } from "@/contexts/ThemeContext";
 import { ProfileDropdownComponent } from "./ProfileDropdownComponent";
-
-interface TopBarActionsComponentProps {
-    showSearch: boolean;
-    setShowSearch: (show: boolean) => void;
-}
+import type { TopBarActionsComponentProps } from "@/types/homeTypes";
 
 export const TopBarActionsComponent = ({
     showSearch,

@@ -1,18 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, Star, Clock, Flame, ChevronDown } from "lucide-react";
-
-interface Restaurant {
-    name: string;
-    address: string;
-    rating: number;
-    deliveryTime: string;
-    description: string;
-}
-
-interface RestaurantInfoCardComponentProps {
-    restaurant: Restaurant;
-}
+import type { RestaurantInfoCardComponentProps } from "@/types/restaurantDetailTypes";
 
 export const RestaurantInfoCardComponent = ({ restaurant }: RestaurantInfoCardComponentProps) => {
     const [showFullDescription, setShowFullDescription] = useState(false);

@@ -1,12 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Bell, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface RestaurantDetailHeaderComponentProps {
-    restaurantName: string;
-    showSearch: boolean;
-    setShowSearch: (show: boolean) => void;
-}
+import type { RestaurantDetailHeaderComponentProps } from "@/types/restaurantDetailTypes";
 
 export const RestaurantDetailHeaderComponent = ({
     restaurantName,

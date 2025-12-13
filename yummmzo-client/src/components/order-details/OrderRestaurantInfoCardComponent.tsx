@@ -1,11 +1,5 @@
+import type { OrderRestaurantInfoCardComponentProps } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
-
-interface OrderRestaurantInfoCardComponentProps {
-    restaurantImage: string;
-    restaurantName: string;
-    orderId: string;
-    date: string;
-}
 
 export const OrderRestaurantInfoCardComponent = ({
     restaurantImage,

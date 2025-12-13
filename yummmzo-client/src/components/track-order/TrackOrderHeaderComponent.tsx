@@ -1,10 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface TrackOrderHeaderComponentProps {
-    orderId?: string;
-}
+import type { TrackOrderHeaderComponentProps } from "@/types/trackOrderTypes";
 
 export const TrackOrderHeaderComponent = ({ orderId }: TrackOrderHeaderComponentProps) => {
     return (

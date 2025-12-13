@@ -1,15 +1,5 @@
+import type { OrderDetailsCardComponentProps } from "@/types/trackOrderTypes";
 import { motion } from "framer-motion";
-
-interface Order {
-    id: string;
-    restaurantName: string;
-    items: any[];
-    total: number;
-}
-
-interface OrderDetailsCardComponentProps {
-    order: Order;
-}
 
 export const OrderDetailsCardComponent = ({ order }: OrderDetailsCardComponentProps) => {
     return (

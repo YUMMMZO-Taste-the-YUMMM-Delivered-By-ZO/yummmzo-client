@@ -3,11 +3,7 @@ import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LocationButtonComponent } from "./LocationButtonComponent";
 import { TopBarActionsComponent } from "./TopBarActionsComponent";
-
-interface TopBarComponentProps {
-    showSearch: boolean;
-    setShowSearch: (show: boolean) => void;
-}
+import type { TopBarComponentProps } from "@/types/homeTypes";
 
 export const TopBarComponent = ({ showSearch, setShowSearch }: TopBarComponentProps) => {
     return (

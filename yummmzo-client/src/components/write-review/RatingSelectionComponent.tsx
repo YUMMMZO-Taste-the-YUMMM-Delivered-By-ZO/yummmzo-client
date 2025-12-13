@@ -1,11 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Star } from "lucide-react";
-
-interface RatingSelectionComponentProps {
-    rating: number;
-    setRating: (rating: number) => void;
-}
+import type { RatingSelectionComponentProps } from "@/types/writeReviewTypes";
 
 export const RatingSelectionComponent = ({ rating, setRating }: RatingSelectionComponentProps) => {
     const [hoverRating, setHoverRating] = useState(0);

@@ -1,19 +1,6 @@
 import { Heart } from "lucide-react";
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
-
-interface Restaurant {
-    id: number;
-    name: string;
-    cuisine: string;
-    rating: number;
-    deliveryTime: string;
-    image: string;
-    deliveryFee: number;
-}
-
-interface FavoritesGridComponentProps {
-    favorites: Restaurant[];
-}
+import type { FavoritesGridComponentProps } from "@/types/favouritesTypes";
 
 export const FavoritesGridComponent = ({ favorites }: FavoritesGridComponentProps) => {
     return (

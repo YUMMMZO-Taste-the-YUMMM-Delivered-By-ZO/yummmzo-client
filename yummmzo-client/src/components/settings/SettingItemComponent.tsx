@@ -1,20 +1,6 @@
-import { ChevronRight, type LucideIcon } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-
-interface SettingItem {
-    icon: LucideIcon;
-    label: string;
-    type: "toggle" | "link";
-    defaultValue?: boolean;
-    value?: boolean | string;
-    onChange?: () => void;
-}
-
-interface SettingItemComponentProps {
-    item: SettingItem;
-    index: number;
-    isLast: boolean;
-}
+import type { SettingItemComponentProps } from "@/types/settingsTypes";
 
 export const SettingItemComponent = ({ item, index, isLast }: SettingItemComponentProps) => {
     return (

@@ -1,9 +1,6 @@
+import type { DeliveryDetailsCardComponentProps } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
 import { MapPin, Phone } from "lucide-react";
-
-interface DeliveryDetailsCardComponentProps {
-    deliveryAddress: string;
-}
 
 export const DeliveryDetailsCardComponent = ({ deliveryAddress }: DeliveryDetailsCardComponentProps) => {
     return (

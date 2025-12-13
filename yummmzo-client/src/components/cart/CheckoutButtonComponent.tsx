@@ -1,9 +1,6 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-
-interface CheckoutButtonComponentProps {
-    grandTotal: number;
-}
+import type { CheckoutButtonComponentProps } from "@/types/cartTypes";
 
 export const CheckoutButtonComponent = ({ grandTotal }: CheckoutButtonComponentProps) => {
     return (

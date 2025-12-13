@@ -1,11 +1,5 @@
+import type { OrderSummaryComponentProps } from "@/types/cartTypes";
 import { motion } from "framer-motion";
-
-interface OrderSummaryComponentProps {
-    subtotal: number;
-    deliveryFee: number;
-    discount: number;
-    grandTotal: number;
-}
 
 export const OrderSummaryComponent = ({
     subtotal,

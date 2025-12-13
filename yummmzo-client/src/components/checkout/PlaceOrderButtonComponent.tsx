@@ -1,10 +1,5 @@
 import { Button } from "@/components/ui/button";
-
-interface PlaceOrderButtonComponentProps {
-    grandTotal: number;
-    isLoading: boolean;
-    onPlaceOrder: () => void;
-}
+import type { PlaceOrderButtonComponentProps } from "@/types/checkoutTypes";
 
 export const PlaceOrderButtonComponent = ({
     grandTotal,

@@ -1,9 +1,6 @@
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
-
-interface BillSummaryComponentProps {
-    total: number;
-}
+import type { BillSummaryComponentProps } from "@/types/orderDetailsTypes";
 
 export const BillSummaryComponent = ({ total }: BillSummaryComponentProps) => {
     return (

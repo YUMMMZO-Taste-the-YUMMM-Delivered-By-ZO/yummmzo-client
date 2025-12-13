@@ -1,9 +1,6 @@
+import type { DeliveryAddressCardComponentProps } from "@/types/trackOrderTypes";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
-
-interface DeliveryAddressCardComponentProps {
-    deliveryAddress: string;
-}
 
 export const DeliveryAddressCardComponent = ({ deliveryAddress }: DeliveryAddressCardComponentProps) => {
     return (

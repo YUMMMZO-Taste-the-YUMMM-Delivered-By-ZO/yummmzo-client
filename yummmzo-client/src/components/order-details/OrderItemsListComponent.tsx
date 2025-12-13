@@ -1,16 +1,5 @@
+import type { OrderItemsListComponentProps } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
-
-interface OrderItem {
-    id: number;
-    name: string;
-    image: string;
-    price: number;
-    quantity: number;
-}
-
-interface OrderItemsListComponentProps {
-    items: OrderItem[];
-}
 
 export const OrderItemsListComponent = ({ items }: OrderItemsListComponentProps) => {
     return (

@@ -1,14 +1,6 @@
+import type { ContactOption } from "@/types/helpSupportTypes";
 import { motion } from "framer-motion";
-import { Mail, Phone, MessageCircle, type LucideIcon } from "lucide-react";
-
-interface ContactOption {
-    icon: LucideIcon;
-    title: string;
-    description: string;
-    action: string;
-    color: string;
-    isOnline?: boolean;
-}
+import { Mail, Phone, MessageCircle } from "lucide-react";
 
 export const ContactOptionsComponent = () => {
     const contactOptions: ContactOption[] = [

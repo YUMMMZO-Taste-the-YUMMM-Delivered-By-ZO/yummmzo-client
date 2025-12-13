@@ -2,11 +2,7 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { ShoppingBag } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface FloatingCartButtonComponentProps {
-    itemCount: number;
-    total: number;
-}
+import type { FloatingCartButtonComponentProps } from "@/types/restaurantDetailTypes";
 
 export const FloatingCartButtonComponent = ({
     itemCount,

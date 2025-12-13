@@ -1,10 +1,5 @@
+import type { CategoryPillsComponentProps } from "@/types/homeTypes";
 import { motion } from "framer-motion";
-
-interface CategoryPillsComponentProps {
-    categories: string[];
-    activeCategory: string;
-    setActiveCategory: (category: string) => void;
-}
 
 export const CategoryPillsComponent = ({
     categories,

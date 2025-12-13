@@ -1,21 +1,6 @@
 import { motion } from "framer-motion";
 import { SettingItemComponent } from "./SettingItemComponent";
-import { type LucideIcon } from "lucide-react";
-
-interface SettingItem {
-    icon: LucideIcon;
-    label: string;
-    type: "toggle" | "link";
-    defaultValue?: boolean;
-    value?: boolean | string;
-    onChange?: () => void;
-}
-
-interface SettingGroupComponentProps {
-    title: string;
-    items: SettingItem[];
-    groupIndex: number;
-}
+import type { SettingGroupComponentProps } from "@/types/settingsTypes";
 
 export const SettingGroupComponent = ({ title, items, groupIndex }: SettingGroupComponentProps) => {
     return (

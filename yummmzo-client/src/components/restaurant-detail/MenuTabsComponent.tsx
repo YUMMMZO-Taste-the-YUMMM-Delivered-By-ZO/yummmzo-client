@@ -1,8 +1,4 @@
-interface MenuTabsComponentProps {
-    menuCategories: string[];
-    activeTab: string;
-    setActiveTab: (tab: string) => void;
-}
+import type { MenuTabsComponentProps } from "@/types/restaurantDetailTypes";
 
 export const MenuTabsComponent = ({
     menuCategories,

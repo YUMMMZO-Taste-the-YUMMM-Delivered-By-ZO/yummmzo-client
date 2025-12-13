@@ -1,9 +1,6 @@
 import { MapPin, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface EmptyAddressesComponentProps {
-    onAddClick: () => void;
-}
+import type { EmptyAddressesComponentProps } from "@/types/manageAddressTypes";
 
 export const EmptyAddressesComponent = ({ onAddClick }: EmptyAddressesComponentProps) => {
     return (

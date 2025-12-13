@@ -1,11 +1,7 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface CartHeaderComponentProps {
-    itemsCount: number;
-    onClearCart: () => void;
-}
+import type { CartHeaderComponentProps } from "@/types/cartTypes";
 
 export const CartHeaderComponent = ({ itemsCount, onClearCart }: CartHeaderComponentProps) => {
     return (

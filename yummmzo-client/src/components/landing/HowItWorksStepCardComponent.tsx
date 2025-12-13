@@ -1,15 +1,6 @@
+import type { HowItWorksStepCardComponentProps } from "@/types/landingTypes";
 import { motion } from "framer-motion";
-import { ChevronRight, type LucideIcon } from "lucide-react";
-
-interface HowItWorksStepCardComponentProps {
-    step: {
-        icon: LucideIcon;
-        title: string;
-        description: string;
-    };
-    index: number;
-    isLast: boolean;
-}
+import { ChevronRight } from "lucide-react";
 
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },

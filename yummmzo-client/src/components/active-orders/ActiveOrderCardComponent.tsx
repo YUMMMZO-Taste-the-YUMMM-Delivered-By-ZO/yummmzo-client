@@ -3,21 +3,7 @@ import { motion } from "framer-motion";
 import { Badge } from "@/components/ui/badge";
 import { OrderProgressBarComponent } from "./OrderProgressBarComponent";
 import { OrderTrackingInfoComponent } from "./OrderTrackingInfoComponent";
-
-interface Order {
-    id: string;
-    restaurantImage: string;
-    restaurantName: string;
-    status: string;
-    items: any[];
-    total: number;
-    estimatedTime?: string;
-}
-
-interface ActiveOrderCardComponentProps {
-    order: Order;
-    index: number;
-}
+import type { ActiveOrderCardComponentProps } from "@/types/activeOrdersTypes";
 
 export const ActiveOrderCardComponent = ({ order, index }: ActiveOrderCardComponentProps) => {
     const getStatusColor = (status: string) => {

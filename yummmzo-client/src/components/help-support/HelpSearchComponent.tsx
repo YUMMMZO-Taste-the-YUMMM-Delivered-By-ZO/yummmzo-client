@@ -1,11 +1,7 @@
 import { motion } from "framer-motion";
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-interface HelpSearchComponentProps {
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-}
+import type { HelpSearchComponentProps } from "@/types/helpSupportTypes";
 
 export const HelpSearchComponent = ({ searchQuery, setSearchQuery }: HelpSearchComponentProps) => {
     return (

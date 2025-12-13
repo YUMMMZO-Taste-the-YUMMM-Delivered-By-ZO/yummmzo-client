@@ -1,22 +1,7 @@
 import { motion } from "framer-motion";
 import { Plus, Minus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface CartItem {
-    id: number;
-    name: string;
-    description: string;
-    image: string;
-    price: number;
-    quantity: number;
-}
-
-interface CartItemCardComponentProps {
-    item: CartItem;
-    index: number;
-    onUpdateQuantity: (id: number, quantity: number) => void;
-    onRemove: (id: number) => void;
-}
+import type { CartItemCardComponentProps } from "@/types/cartTypes";
 
 export const CartItemCardComponent = ({
     item,

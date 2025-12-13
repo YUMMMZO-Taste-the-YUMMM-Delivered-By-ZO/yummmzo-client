@@ -1,13 +1,5 @@
+import type { FeatureCardComponentProps } from "@/types/landingTypes";
 import { motion } from "framer-motion";
-import { type LucideIcon } from "lucide-react";
-
-interface FeatureCardComponentProps {
-    feature: {
-        icon: LucideIcon;
-        title: string;
-        description: string;
-    };
-}
 
 const fadeInUp = {
     initial: { opacity: 0, y: 20 },

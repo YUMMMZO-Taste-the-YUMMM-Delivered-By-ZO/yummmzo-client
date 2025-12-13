@@ -1,8 +1,4 @@
-interface FAQCategoriesComponentProps {
-    categories: string[];
-    selectedCategory: string;
-    setSelectedCategory: (category: string) => void;
-}
+import type { FAQCategoriesComponentProps } from "@/types/helpSupportTypes";
 
 export const FAQCategoriesComponent = ({
     categories,

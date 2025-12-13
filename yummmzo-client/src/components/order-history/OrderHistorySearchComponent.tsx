@@ -1,10 +1,6 @@
 import { Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
-
-interface OrderHistorySearchComponentProps {
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-}
+import type { OrderHistorySearchComponentProps } from "@/types/orderHistoryTypes";
 
 export const OrderHistorySearchComponent = ({
     searchQuery,

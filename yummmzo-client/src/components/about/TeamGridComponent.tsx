@@ -1,10 +1,5 @@
+import type { TeamMember } from "@/types/aboutTypes";
 import { motion } from "framer-motion";
-
-interface TeamMember {
-    name: string;
-    role: string;
-    image: string;
-}
 
 export const TeamGridComponent = () => {
     const team: TeamMember[] = [

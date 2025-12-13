@@ -1,11 +1,6 @@
+import type { Value } from "@/types/aboutTypes";
 import { motion } from "framer-motion";
-import { Zap, Heart, Shield, Clock, type LucideIcon, } from "lucide-react";
-
-interface Value {
-    icon: LucideIcon;
-    title: string;
-    description: string;
-}
+import { Zap, Heart, Shield, Clock } from "lucide-react";
 
 export const ValuesGridComponent = () => {
     const values: Value[] = [

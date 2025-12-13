@@ -1,10 +1,6 @@
 import { Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface SubmitReviewButtonComponentProps {
-    rating: number;
-    onSubmit: () => void;
-}
+import type { SubmitReviewButtonComponentProps } from "@/types/writeReviewTypes";
 
 export const SubmitReviewButtonComponent = ({
     rating,

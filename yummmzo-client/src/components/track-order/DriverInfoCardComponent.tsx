@@ -1,18 +1,7 @@
 import { motion } from "framer-motion";
 import { Phone, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
-interface Driver {
-    name: string;
-    phone: string;
-    rating: number;
-    deliveries: number;
-    image: string;
-}
-
-interface DriverInfoCardComponentProps {
-    driver: Driver;
-}
+import type { DriverInfoCardComponentProps } from "@/types/trackOrderTypes";
 
 export const DriverInfoCardComponent = ({ driver }: DriverInfoCardComponentProps) => {
     return (

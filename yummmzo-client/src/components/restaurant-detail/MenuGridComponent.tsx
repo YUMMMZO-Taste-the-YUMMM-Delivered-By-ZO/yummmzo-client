@@ -1,24 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { MenuItemCard } from "@/components/cards/MenuItemCard";
-
-interface MenuItem {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-    image: string;
-    category: string;
-    restaurantId: number;
-    rating: number;
-    calories?: number;
-}
-
-interface MenuGridComponentProps {
-    filteredItems: MenuItem[];
-    searchQuery: string;
-    setSearchQuery: (query: string) => void;
-    setActiveTab: (tab: string) => void;
-}
+import type { MenuGridComponentProps } from "@/types/restaurantDetailTypes";
 
 export const MenuGridComponent = ({
     filteredItems,

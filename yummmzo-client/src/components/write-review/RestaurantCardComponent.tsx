@@ -1,15 +1,5 @@
+import type { RestaurantCardComponentProps } from "@/types/writeReviewTypes";
 import { motion } from "framer-motion";
-
-interface Restaurant {
-    image: string;
-    name: string;
-    cuisine: string;
-    address: string;
-}
-
-interface RestaurantCardComponentProps {
-    restaurant: Restaurant;
-}
 
 export const RestaurantCardComponent = ({ restaurant }: RestaurantCardComponentProps) => {
     return (

@@ -2,22 +2,7 @@ import { motion } from "framer-motion";
 import { Home, Briefcase, MapPin, Edit2, Trash2, Check, type LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-
-interface Address {
-    id: string;
-    type: "home" | "work" | "other";
-    address: string;
-    city: string;
-    state: string;
-    pincode: string;
-    isDefault: boolean;
-}
-
-interface AddressCardComponentProps {
-    address: Address;
-    index: number;
-    onDelete: (id: string) => void;
-}
+import type { AddressCardComponentProps } from "@/types/manageAddressTypes";
 
 export const AddressCardComponent = ({ address, index, onDelete }: AddressCardComponentProps) => {
     const getTypeIcon = (type: string): LucideIcon => {

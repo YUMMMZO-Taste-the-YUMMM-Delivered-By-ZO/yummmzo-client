@@ -1,4 +1,4 @@
-import { ChevronRight, LucideIcon } from "lucide-react";
+import { ChevronRight, type LucideIcon } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 
 interface SettingItem {

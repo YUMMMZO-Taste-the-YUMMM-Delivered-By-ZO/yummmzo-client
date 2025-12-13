@@ -1,8 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
 import { CartProvider } from "@/contexts/CartContext";
 import Index from "./pages/Index";
@@ -24,6 +21,8 @@ import HelpSupport from "./pages/HelpSupport";
 import About from "./pages/About";
 import TrackOrder from "./pages/TrackOrder";
 import Settings from "./pages/Settings";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 const queryClient = new QueryClient();
 
@@ -33,7 +32,7 @@ const App = () => (
       <CartProvider>
         <TooltipProvider>
           <Toaster />
-          <Sonner />
+          {/* <Sonner /> */}
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />

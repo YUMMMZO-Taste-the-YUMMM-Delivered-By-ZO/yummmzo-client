@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Zap, Heart, Shield, Clock, LucideIcon } from "lucide-react";
+import { Zap, Heart, Shield, Clock, type LucideIcon, } from "lucide-react";
 
 interface Value {
     icon: LucideIcon;

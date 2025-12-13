@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Mail, Phone, MessageCircle, LucideIcon } from "lucide-react";
+import { Mail, Phone, MessageCircle, type LucideIcon } from "lucide-react";
 
 interface ContactOption {
     icon: LucideIcon;

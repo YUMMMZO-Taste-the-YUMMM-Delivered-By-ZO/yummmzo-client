@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { SettingItemComponent } from "./SettingItemComponent";
-import { LucideIcon } from "lucide-react";
+import { type LucideIcon } from "lucide-react";
 
 interface SettingItem {
     icon: LucideIcon;

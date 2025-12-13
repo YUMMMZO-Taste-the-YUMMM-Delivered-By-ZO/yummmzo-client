@@ -119,7 +119,7 @@
 
 @layer utilities {
     .text-gradient {
-        @apply bg-gradient-to-r from-primary via-[hsl(92, 100%, 60%)] to-primary bg-clip-text text-transparent;
+        @apply bg-gradient-to-r from-primary via-gradient-middle to-primary bg-clip-text text-transparent;
     }
 
     .glow-primary {

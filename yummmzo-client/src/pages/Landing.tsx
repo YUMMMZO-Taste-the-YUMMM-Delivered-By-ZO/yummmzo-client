@@ -13,6 +13,7 @@ import { HowItWorksStepCardComponent } from "@/components/landing/HowItWorksStep
 import { PopularRestaurantsSectionHeaderComponent } from "@/components/landing/PopularRestaurantsSectionHeaderComponent";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
+import { restaurants } from "@/data/mockData";
 import { motion } from "framer-motion";
 import{
     Search,

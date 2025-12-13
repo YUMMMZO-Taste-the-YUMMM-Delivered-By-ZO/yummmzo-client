@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Store, Users, ShoppingBag, LucideIcon } from "lucide-react";
+import { Store, Users, ShoppingBag, type LucideIcon, } from "lucide-react";
 
 interface Stat {
     icon: LucideIcon;

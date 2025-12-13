@@ -20,7 +20,11 @@ export const TopBarComponent = ({ showSearch, setShowSearch }: TopBarComponentPr
 
                     {/* Logo for desktop */}
                     <Link to="/" className="hidden md:block">
-                        <span className="text-xl font-bold text-primary">YUMMMZO</span>
+                        <img 
+                            src="/logo.svg" 
+                            alt="YUMMMZO - Taste the Yummm, Delivered By Zo" 
+                            className="hidden md:block h-12 w-auto"
+                        />
                     </Link>
 
                     <LocationButtonComponent />

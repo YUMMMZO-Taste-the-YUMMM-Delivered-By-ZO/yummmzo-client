@@ -5,7 +5,7 @@ import {
     Package,
     Truck,
     Home,
-    LucideIcon,
+    type LucideIcon,
 } from "lucide-react";
 
 interface TimelineItem {

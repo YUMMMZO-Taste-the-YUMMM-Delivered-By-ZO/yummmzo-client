@@ -7,7 +7,7 @@ import {
     Settings,
     HelpCircle,
     ChevronRight,
-    LucideIcon,
+    type LucideIcon,
 } from "lucide-react";
 
 interface MenuItem {

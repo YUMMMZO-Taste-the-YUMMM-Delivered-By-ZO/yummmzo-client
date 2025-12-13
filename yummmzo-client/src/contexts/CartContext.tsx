@@ -51,7 +51,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
     return (
         <CartContext.Provider
-            value= {{
+            value={{
                 items,
                 addToCart,
                 removeFromCart,
@@ -59,12 +59,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
                 clearCart,
                 total,
                 itemCount,
-                }}
+            }}
         >
-        { children }
+            {children}
         </CartContext.Provider>
     );
-};
+}
 
 export function useCart() {
     const context = useContext(CartContext);

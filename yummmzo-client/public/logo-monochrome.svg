@@ -1,0 +1,25 @@
+<svg viewBox="0 0 550 200" xmlns="http://www.w3.org/2000/svg">
+  <!-- Transparent icon outline -->
+  <rect width="200" height="200" fill="none" stroke="#FFFFFF" stroke-width="3" rx="40" opacity="0.2"/>
+  
+  <!-- Delivery box - GREEN accent -->
+  <rect x="120" y="75" width="30" height="30" fill="#7EFF00" rx="4"/>
+  
+  <!-- Scooter body - White -->
+  <path d="M 50,95 L 80,95 L 90,80 L 120,80"
+        fill="none" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round"/>
+  
+  <!-- Wheels - White -->
+  <circle cx="60" cy="120" r="18" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+  <circle cx="130" cy="120" r="18" fill="none" stroke="#FFFFFF" stroke-width="8"/>
+  
+  <!-- Speed lines - GREEN -->
+  <line x1="20" y1="85" x2="40" y2="85" stroke="#7EFF00" stroke-width="4" stroke-linecap="round" opacity="0.6"/>
+  <line x1="25" y1="100" x2="45" y2="100" stroke="#7EFF00" stroke-width="4" stroke-linecap="round" opacity="0.4"/>
+  <line x1="30" y1="115" x2="50" y2="115" stroke="#7EFF00" stroke-width="4" stroke-linecap="round" opacity="0.5"/>
+  
+  <!-- Brand Name - White -->
+  <text x="230" y="120" font-family="Poppins, sans-serif" font-size="64" font-weight="800" fill="#FFFFFF">
+    YUMMMZO
+  </text>
+</svg>

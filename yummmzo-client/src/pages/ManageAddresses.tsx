@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { addresses as initialAddresses, Address } from "@/data/mockData";
+import { addresses as initialAddresses, type Address} from "@/data/mockData";
 import { ManageAddressesHeaderComponent } from "@/components/manage-addresses/ManageAddressesHeaderComponent";
 import { AddAddressFormComponent } from "@/components/manage-addresses/AddAddressFormComponent";
 import { AddressCardComponent } from "@/components/manage-addresses/AddressCardComponent";

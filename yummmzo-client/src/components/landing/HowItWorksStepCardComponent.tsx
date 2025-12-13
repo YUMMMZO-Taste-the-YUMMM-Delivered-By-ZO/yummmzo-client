@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { ChevronRight, LucideIcon } from "lucide-react";
+import { ChevronRight, type LucideIcon } from "lucide-react";
 
 interface HowItWorksStepCardComponentProps {
     step: {

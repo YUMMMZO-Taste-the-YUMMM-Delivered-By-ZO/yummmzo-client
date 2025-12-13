@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CreditCard, Wallet, Banknote, Check, LucideIcon } from "lucide-react";
+import { CreditCard, Wallet, Banknote, Check, type LucideIcon } from "lucide-react";
 
 interface PaymentMethod {
     id: string;

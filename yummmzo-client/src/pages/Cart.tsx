@@ -1,18 +1,27 @@
+import { useState } from "react";
 import { CartHeaderComponent } from "@/components/cart/CartHeaderComponent";
 import { CartItemCardComponent } from "@/components/cart/CartItemCardComponent";
 import { CheckoutButtonComponent } from "@/components/cart/CheckoutButtonComponent";
 import { CouponSectionComponent } from "@/components/cart/CouponSectionComponent";
 import { EmptyCartComponent } from "@/components/cart/EmptyCartComponent";
 import { OrderSummaryComponent } from "@/components/cart/OrderSummaryComponent";
+import { AvailableCouponsComponent } from "@/components/cart/AvailableCouponsComponent";
 import { BottomNav } from "@/components/layout/BottomNav";
 import { useCart } from "@/contexts/CartContext";
 
 export default function Cart() {
     const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
+    const [isCouponSelectionOpen, setIsCouponSelectionOpen] = useState(false);
 
     const deliveryFee = 2.99;
     const discount = 0;
     const grandTotal = total + deliveryFee - discount;
+
+    const handleSelectCoupon = (code: string) => {
+        console.log("Applying coupon:", code);
+        setIsCouponSelectionOpen(false);
+        // JS logic would go here to update the discount state
+    };
 
     return (
         <div className="min-h-screen bg-background pb-40 md:pb-24">
@@ -39,7 +48,7 @@ export default function Cart() {
                             ))}
                         </div>
 
-                        <CouponSectionComponent />
+                        <CouponSectionComponent onOpenSelection={() => setIsCouponSelectionOpen(true)} />
 
                         <OrderSummaryComponent
                             subtotal={total}
@@ -54,6 +63,12 @@ export default function Cart() {
             {items.length > 0 && (
                 <CheckoutButtonComponent grandTotal={grandTotal} />
             )}
+
+            <AvailableCouponsComponent 
+                isOpen={isCouponSelectionOpen} 
+                onClose={() => setIsCouponSelectionOpen(false)}
+                onSelect={handleSelectCoupon}
+            />
 
             <BottomNav />
         </div>

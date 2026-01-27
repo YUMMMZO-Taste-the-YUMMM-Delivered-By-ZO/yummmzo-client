@@ -1,49 +1,61 @@
-import type { PaymentMethod, PaymentMethodComponentProps } from "@/types/checkoutTypes";
-import { motion } from "framer-motion";
-import { CreditCard, Wallet, Banknote, Check } from "lucide-react";
+import { useState } from "react";
+import { CreditCard, Smartphone, Banknote, CheckCircle2 } from "lucide-react";
+import { SavedCardsComponent } from "./SavedCardsComponent";
+import { SavedUpiComponent } from "./SavedUpiComponent";
 
-export const PaymentMethodComponent = ({
-    selectedPayment,
-    setSelectedPayment
-}: PaymentMethodComponentProps) => {
-    const paymentMethods: PaymentMethod[] = [
-        { id: "card", name: "Credit Card", icon: CreditCard },
-        { id: "upi", name: "UPI", icon: Wallet },
-        { id: "cod", name: "Cash on Delivery", icon: Banknote },
+export const PaymentMethodComponent = ({ selectedPayment, setSelectedPayment }: any) => {
+    const [selectedCardId, setSelectedCardId] = useState("c1");
+    const [selectedUpiId, setSelectedUpiId] = useState("");
+
+    const paymentOptions = [
+        { id: "card", label: "Credit Card", icon: CreditCard },
+        { id: "upi", label: "UPI", icon: Smartphone },
+        { id: "cod", label: "Cash on Delivery", icon: Banknote },
     ];
 
     return (
-        <motion.section
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-        >
-            <h2 className="font-semibold mb-4">Payment Method</h2>
-            <div className="space-y-3">
-                {paymentMethods.map((method) => (
-                    <button
-                        key={method.id}
-                        onClick={() => setSelectedPayment(method.id)}
-                        className={`w-full flex items-center gap-4 p-4 rounded-2xl border transition-all duration-200 ${selectedPayment === method.id
-                                ? "border-primary bg-primary/5"
-                                : "border-border bg-card hover:border-primary/50"
+        <div className="space-y-4">
+            <h3 className="text-heading-sm font-bold px-1">Payment Method</h3>
+            <div className="flex flex-col gap-4">
+                {paymentOptions.map((option) => {
+                    const Icon = option.icon;
+                    const isSelected = selectedPayment === option.id;
+
+                    return (
+                        <div 
+                            key={option.id}
+                            className={`p-4 rounded-2xl border transition-all duration-300 ${
+                                isSelected ? "border-primary bg-primary/5" : "border-border bg-card/50"
                             }`}
-                    >
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center ${selectedPayment === method.id ? "bg-primary/10" : "bg-muted"
-                            }`}>
-                            <method.icon className={`h-5 w-5 ${selectedPayment === method.id ? "text-primary" : "text-muted-foreground"
-                                }`} />
-                        </div>
-                        <span className="flex-1 text-left font-medium">{method.name}</span>
-                        <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${selectedPayment === method.id ? "border-primary bg-primary" : "border-muted-foreground"
-                            }`}>
-                            {selectedPayment === method.id && (
-                                <Check className="h-3 w-3 text-primary-foreground" />
+                        >
+                            <div 
+                                className="flex items-center justify-between cursor-pointer"
+                                onClick={() => setSelectedPayment(option.id)}
+                            >
+                                <div className="flex items-center gap-3">
+                                    <div className={`p-2 rounded-lg ${isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
+                                        <Icon className="w-5 h-5" />
+                                    </div>
+                                    <span className="font-bold text-body-md">{option.label}</span>
+                                </div>
+                                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all ${
+                                    isSelected ? "border-primary bg-primary shadow-glow" : "border-muted"
+                                }`}>
+                                    {isSelected && <CheckCircle2 className="w-4 h-4 text-primary-foreground" />}
+                                </div>
+                            </div>
+
+                            {/* Conditional expansion for Card/UPI */}
+                            {isSelected && option.id === "card" && (
+                                <SavedCardsComponent selectedCardId={selectedCardId} onSelect={setSelectedCardId} />
+                            )}
+                            {isSelected && option.id === "upi" && (
+                                <SavedUpiComponent selectedUpiId={selectedUpiId} onSelect={setSelectedUpiId} />
                             )}
                         </div>
-                    </button>
-                ))}
+                    );
+                })}
             </div>
-        </motion.section>
+        </div>
     );
 };

@@ -7,11 +7,14 @@ import { PromoBannerComponent } from "@/components/home/PromoBannerComponent";
 import { CategoryPillsComponent } from "@/components/home/CategoryPillsComponent";
 import { BestChoiceSectionComponent } from "@/components/home/BestChoiceSectionComponent";
 import { AllRestaurantsSectionComponent } from "@/components/home/AllRestaurantsSectionComponent";
+import { FilterSortComponent } from "@/components/home/FilterSortComponent";
+import { SlidersHorizontal } from "lucide-react";
 
 export default function Home() {
     const [activeCategory, setActiveCategory] = useState("All Type");
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearch, setShowSearch] = useState(false);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
 
     const filteredRestaurants = restaurants.filter((r) => {
         const matchesCategory =
@@ -28,7 +31,7 @@ export default function Home() {
     const bestChoiceItems = menuItems.slice(0, 6);
 
     return (
-        <div className="min-h-screen bg-background pb-20 md:pb-0">
+        <div className="min-h-screen bg-background pb-24 md:pb-0">
             <TopBarComponent
                 showSearch={showSearch}
                 setShowSearch={setShowSearch}
@@ -45,11 +48,25 @@ export default function Home() {
             <main className="container mx-auto px-4 py-6">
                 <PromoBannerComponent />
 
-                <CategoryPillsComponent
-                    categories={categories}
-                    activeCategory={activeCategory}
-                    setActiveCategory={setActiveCategory}
-                />
+                <div className="space-y-4 mb-8">
+                    {/* Category List */}
+                    <CategoryPillsComponent
+                        categories={categories}
+                        activeCategory={activeCategory}
+                        setActiveCategory={setActiveCategory}
+                    />
+                    
+                    {/* Filter Button - Positioned Left Below Categories */}
+                    <div className="flex justify-start">
+                        <button 
+                            onClick={() => setIsFilterOpen(true)}
+                            className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border bg-card/40 backdrop-blur-md hover:border-primary/50 text-foreground transition-all shadow-sm hover-lift active:scale-95 group"
+                        >
+                            <SlidersHorizontal className="w-4 h-4 text-primary group-hover:rotate-12 transition-transform" />
+                            <span className="font-bold text-body-sm">Filters & Sort</span>
+                        </button>
+                    </div>
+                </div>
 
                 <BestChoiceSectionComponent bestChoiceItems={bestChoiceItems} />
 
@@ -60,6 +77,11 @@ export default function Home() {
                     setActiveCategory={setActiveCategory}
                 />
             </main>
+
+            <FilterSortComponent 
+                isOpen={isFilterOpen} 
+                onClose={() => setIsFilterOpen(false)} 
+            />
 
             <BottomNav />
         </div>

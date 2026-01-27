@@ -10,12 +10,15 @@ import { RestaurantInfoCardComponent } from "@/components/restaurant-detail/Rest
 import { MenuTabsComponent } from "@/components/restaurant-detail/MenuTabsComponent";
 import { MenuGridComponent } from "@/components/restaurant-detail/MenuGridComponent";
 import { FloatingCartButtonComponent } from "@/components/restaurant-detail/FloatingCartButtonComponent";
+import { MenuFilterComponent } from "@/components/restaurant-detail/MenuFilterComponent";
+import { RestaurantReviewsComponent } from "@/components/restaurant-detail/RestaurantReviewsComponent";
 
 export default function RestaurantDetail() {
     const { id } = useParams();
     const [activeTab, setActiveTab] = useState("All");
     const [searchQuery, setSearchQuery] = useState("");
     const [showSearch, setShowSearch] = useState(false);
+    const [isFilterOpen, setIsFilterOpen] = useState(false);
     const { items, total } = useCart();
 
     const restaurant = restaurants.find((r) => r.id === id) || restaurants[0];
@@ -62,6 +65,7 @@ export default function RestaurantDetail() {
                     menuCategories={menuCategories}
                     activeTab={activeTab}
                     setActiveTab={setActiveTab}
+                    onFilterClick={() => setIsFilterOpen(true)}
                 />
 
                 <MenuGridComponent
@@ -70,7 +74,17 @@ export default function RestaurantDetail() {
                     setSearchQuery={setSearchQuery}
                     setActiveTab={setActiveTab}
                 />
+
+                {/* Highly requested Review Section */}
+                <div className="mt-16 pt-16 border-t border-border/50">
+                    <RestaurantReviewsComponent />
+                </div>
             </div>
+
+            <MenuFilterComponent 
+                isOpen={isFilterOpen}
+                onClose={() => setIsFilterOpen(false)}
+            />
 
             <FloatingCartButtonComponent
                 itemCount={itemCount}

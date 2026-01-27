@@ -3,7 +3,7 @@ import { BottomNav } from "@/components/layout/BottomNav";
 import { restaurants, categories, menuItems } from "@/data/mockData";
 import { TopBarComponent } from "@/components/home/TopBarComponent";
 import { SearchBarComponent } from "@/components/home/SearchBarComponent";
-import { PromoBannerComponent } from "@/components/home/PromoBannerComponent";
+import { PromoCarouselComponent } from "@/components/home/PromoCarouselComponent"; // Updated import
 import { CategoryPillsComponent } from "@/components/home/CategoryPillsComponent";
 import { BestChoiceSectionComponent } from "@/components/home/BestChoiceSectionComponent";
 import { AllRestaurantsSectionComponent } from "@/components/home/AllRestaurantsSectionComponent";
@@ -46,7 +46,8 @@ export default function Home() {
             </div>
 
             <main className="container mx-auto px-4 py-6">
-                <PromoBannerComponent />
+                {/* Updated: PromoBannerComponent replaced with PromoCarouselComponent */}
+                <PromoCarouselComponent />
 
                 <div className="space-y-4 mb-8">
                     {/* Category List */}

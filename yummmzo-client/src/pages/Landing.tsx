@@ -74,6 +74,10 @@ export default function Landing() {
         }
     ];
 
+    const handleRestaurant = () => {
+        console.log("cliekd");
+    };
+
     return (
         <div className="min-h-screen bg-background">
             <Navbar />
@@ -125,7 +129,7 @@ export default function Landing() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {restaurants.slice(0, 8).map((restaurant, index) => (
-                            <RestaurantCard key={restaurant.id} restaurant={restaurant} index={index} />
+                            <RestaurantCard onClick={handleRestaurant} key={restaurant.id} restaurant={restaurant} index={index} />
                         ))}
                     </div>
                 </div>

@@ -21,13 +21,11 @@ import HelpSupport from "./pages/HelpSupport";
 import About from "./pages/About";
 import TrackOrder from "./pages/TrackOrder";
 import Settings from "./pages/Settings";
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import VerifyEmail from "./pages/VerifyEmail";
+import ResetPassword from "./pages/ResetPassword";
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
+const App = () => (  
     <ThemeProvider>
       <CartProvider>
         <TooltipProvider>
@@ -35,6 +33,8 @@ const App = () => (
           <BrowserRouter>
             <Routes>
               <Route path="/" element={<Index />} />
+              <Route path="/verify-email" element={<VerifyEmail />} />
+              <Route path="/reset-password" element={<ResetPassword />} /> 
               <Route path="/home" element={<Home />} />
               <Route path="/restaurant/:id" element={<RestaurantDetail />} />
               <Route path="/restaurant/:id/review" element={<WriteReview />} />
@@ -58,7 +58,6 @@ const App = () => (
         </TooltipProvider>
       </CartProvider>
     </ThemeProvider>
-  </QueryClientProvider>
 );
 
 export default App;

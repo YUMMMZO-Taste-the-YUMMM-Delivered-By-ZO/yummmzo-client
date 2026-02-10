@@ -1,18 +1,80 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Mail, Lock, Eye, EyeOff, User, Phone, CheckCircle2 } from "lucide-react";
+import { X, Mail, Lock, Eye, EyeOff, User, Phone } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-
-interface SignupModalProps {
-    open: boolean;
-    onOpenChange: (open: boolean) => void;
-    onSwitchToLogin: () => void;
-}
+import type { SignupFormData } from "@/types/formTypes";
+import { useMutation } from "@tanstack/react-query";
+import { signupService } from "@/services/auth.services";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { toast } from "@/hooks/use-toast";
+import type { SignupModalProps } from "@/types/prop-types/authPropTypes";
 
 export function SignupModal({ open, onOpenChange, onSwitchToLogin }: SignupModalProps) {
-    const [showPassword, setShowPassword] = useState(false);
-    const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    // useNavigate
+    const navigate = useNavigate();
+
+    // useDispatch
+    const dispatch = useDispatch();
+
+    // State Variables
+    const [showPassword, setShowPassword] = useState<boolean>(false);
+    const [formData , setFormData] = useState<SignupFormData>({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        password: "",
+    });
+
+    // Mutation
+    const signUpMutation = useMutation({
+        mutationFn: signupService,
+        onSuccess: (data) => {
+            onOpenChange(false);
+            setFormData({
+                firstName: "",
+                lastName: "",
+                email: "",
+                phone: "",
+                password: "",
+            });
+            toast({
+                title: "Check Your Email!",
+                description: "We've sent you a verification link.",
+            });
+        },
+        onError: (error) => {            
+            toast({
+                variant: "destructive",
+                title: "Signup Failed",
+                description: error.response?.data?.message || "Something went wrong",
+            });
+        }
+    });
+
+    // Handler Functions
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setFormData(prev => ({
+            ...prev,
+            [e.target.name]: e.target.value
+        }));
+    };
+
+    const handleSignup = (e: React.FormEvent) => {
+        e.preventDefault();
+        
+        if(!formData.firstName || !formData.lastName || !formData.email || !formData.phone || !formData.password){
+            toast({
+                variant: "destructive",
+                title: "Oops!",
+                description: "Please fill in all fields to continue",
+            });
+            return;
+        };
+        signUpMutation.mutate(formData);
+    };
 
     return (
         <AnimatePresence>
@@ -60,14 +122,31 @@ export function SignupModal({ open, onOpenChange, onSwitchToLogin }: SignupModal
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="relative group">
                                             <User className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
-                                            <Input placeholder="First Name" className="pl-11 h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl" />
+                                            <Input 
+                                                onChange={handleInputChange}
+                                                value={formData.firstName} 
+                                                name="firstName"
+                                                type="text"
+                                                placeholder="First Name" 
+                                                className="pl-11 h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl" 
+                                            />
                                         </div>
-                                        <Input placeholder="Last Name" className="h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl" />
+                                        <Input 
+                                            onChange={handleInputChange}
+                                            value={formData.lastName} 
+                                            type="text"
+                                            name="lastName"
+                                            placeholder="Last Name" 
+                                            className="h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl" 
+                                        />
                                     </div>
 
                                     <div className="relative group">
                                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                         <Input
+                                            onChange={handleInputChange}
+                                            value={formData.email}
+                                            name="email"
                                             type="email"
                                             placeholder="Email address"
                                             className="pl-11 h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl"
@@ -77,6 +156,9 @@ export function SignupModal({ open, onOpenChange, onSwitchToLogin }: SignupModal
                                     <div className="relative group">
                                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                         <Input
+                                            onChange={handleInputChange}
+                                            value={formData.phone}
+                                            name="phone"
                                             type="tel"
                                             placeholder="Phone number"
                                             className="pl-11 h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl"
@@ -86,6 +168,9 @@ export function SignupModal({ open, onOpenChange, onSwitchToLogin }: SignupModal
                                     <div className="relative group">
                                         <Lock className="absolute left-4 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground group-focus-within:text-primary transition-colors" />
                                         <Input
+                                            onChange={handleInputChange}
+                                            value={formData.password}
+                                            name="password"
                                             type={showPassword ? "text" : "password"}
                                             placeholder="Password"
                                             className="pl-11 pr-11 h-11 bg-background/30 border-border focus:border-primary/40 rounded-xl"
@@ -99,7 +184,7 @@ export function SignupModal({ open, onOpenChange, onSwitchToLogin }: SignupModal
                                         </button>
                                     </div>
 
-                                    <Button className="w-full h-12 bg-primary hover:bg-primary/90 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition-all active:scale-[0.98] mt-4">
+                                    <Button disabled={signUpMutation.isPending} onClick={handleSignup} className="w-full h-12 bg-primary hover:bg-primary/90 text-black font-bold uppercase text-xs tracking-wider rounded-xl transition-all active:scale-[0.98] mt-4">
                                         Create Account
                                     </Button>
 

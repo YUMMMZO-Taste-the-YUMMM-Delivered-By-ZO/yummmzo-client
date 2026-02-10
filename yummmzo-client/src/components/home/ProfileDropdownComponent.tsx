@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     User,
     Heart,
@@ -15,8 +15,47 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useMutation } from "@tanstack/react-query";
+import { logoutService } from "@/services/auth.services";
+import { toast } from "@/hooks/use-toast";
+import { useDispatch } from "react-redux";
+import { logout } from "@/store/slices/authSlice";
 
 export const ProfileDropdownComponent = () => {
+    // useNavigate
+    const navigate = useNavigate();
+
+    // useDispatch
+    const dispatch = useDispatch();
+
+    // useMutation
+    const logoutMutation = useMutation({
+        mutationFn: logoutService,
+        onSuccess: (data) => {
+            toast({
+                variant: "default",
+                title: "Logout Successful!",
+                description: "Logged Out Successfully."
+            });
+            dispatch(logout());
+            setTimeout(() => {
+                navigate('/');
+            }, 1000);
+        },
+        onError: (error) => {
+            toast({
+                variant: "destructive",
+                title: "Logout Failed",
+                description: error.response?.data?.message || "Something went wrong",
+            });
+        }
+    });
+
+    // Handler Functions
+    const handleLogout = () => {
+        logoutMutation.mutate();
+    };
+
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -63,7 +102,7 @@ export const ProfileDropdownComponent = () => {
                     </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive cursor-pointer">
+                <DropdownMenuItem onClick={handleLogout} className="text-destructive cursor-pointer">
                     <LogOut className="h-4 w-4 mr-2" />
                     Logout
                 </DropdownMenuItem>

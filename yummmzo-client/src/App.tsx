@@ -38,11 +38,11 @@ const App = () => (
               <Route element={<PublicRoute/>}>
                 <Route path="/" element={<Index />} />
                 <Route path="/verify-email" element={<VerifyEmail />} />
+                <Route path="/reset-password" element={<ResetPassword />} /> 
               </Route>
 
               {/* Protected Routes */}
               <Route element={<ProtectedRoute allowedRoles={['CUSTOMER']}/>}>
-                <Route path="/reset-password" element={<ResetPassword />} /> 
                 <Route path="/home" element={<Home />} />
                 <Route path="/restaurant/:id" element={<RestaurantDetail />} />
                 <Route path="/restaurant/:id/review" element={<WriteReview />} />

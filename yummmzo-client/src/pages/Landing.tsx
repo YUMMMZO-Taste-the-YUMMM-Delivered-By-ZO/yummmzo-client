@@ -13,16 +13,13 @@ import { HowItWorksStepCardComponent } from "@/components/landing/HowItWorksStep
 import { PopularRestaurantsSectionHeaderComponent } from "@/components/landing/PopularRestaurantsSectionHeaderComponent";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
-import { restaurants } from "@/data/mockData";
+import { features, howItWorks, restaurants } from "@/data/mockData";
+import { getCurrentLocation } from "@/helpers/getCurrentLocation";
+import { toast } from "@/hooks/use-toast";
+import { setUserCoordinates } from "@/store/slices/userLocationSlice";
 import { motion } from "framer-motion";
-import{
-    Search,
-    Truck,
-    CreditCard,
-    Clock,
-    Headphones,
-    MapPin
-} from "lucide-react";
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 
 const staggerContainer = {
     animate: {
@@ -33,50 +30,29 @@ const staggerContainer = {
 };
 
 export default function Landing() {
-    const howItWorks = [
-        {
-            icon: Search,
-            title: "Browse Restaurants",
-            description: "Explore thousands of restaurants near you with menus, ratings, and reviews."
-        },
-        {
-            icon: CreditCard,
-            title: "Place Order",
-            description: "Add items to cart, customize your order, and checkout securely."
-        },
-        {
-            icon: Truck,
-            title: "Get Delivery",
-            description: "Track your order from kitchen to doorstep with live GPS updates."
-        }
-    ];
+    // useDispatch
+    const dispatch = useDispatch();
 
-    const features = [
-        {
-            icon: MapPin,
-            title: "Real-time Tracking",
-            description: "Track your order from kitchen to doorstep with live GPS updates."
-        },
-        {
-            icon: CreditCard,
-            title: "Secure Payments",
-            description: "Multiple payment options with bank-level security."
-        },
-        {
-            icon: Clock,
-            title: "Fast Delivery",
-            description: "Average delivery time of 30 minutes or less."
-        },
-        {
-            icon: Headphones,
-            title: "24/7 Support",
-            description: "Our support team is always ready to help you."
-        }
-    ];
-
-    const handleRestaurant = () => {
-        console.log("cliekd");
+    // Handler Functions
+    const handleGetUserCurrentLocation = async () => {
+        try {
+            const coords = await getCurrentLocation();
+            console.log("User Coordinates :", coords);
+            dispatch(setUserCoordinates(coords));
+        } 
+        catch (error: any) {
+            toast({
+                variant: 'destructive',
+                title: "Location Error",
+                description: error.message || "Could not fetch location."
+            });
+        };
     };
+
+    // useEffect
+    useEffect(() => {
+        handleGetUserCurrentLocation();
+    }, []);
 
     return (
         <div className="min-h-screen bg-background">
@@ -90,7 +66,7 @@ export default function Landing() {
                     <div className="max-w-4xl mx-auto text-center">
                         <HeroBadgeComponent />
                         <HeroHeadingComponent />
-                        <HeroSearchBarComponent />
+                        <HeroSearchBarComponent handleGetUserCurrentLocation={handleGetUserCurrentLocation}/>
                         <HeroStatsComponent />
                     </div>
                 </div>
@@ -129,7 +105,7 @@ export default function Landing() {
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                         {restaurants.slice(0, 8).map((restaurant, index) => (
-                            <RestaurantCard onClick={handleRestaurant} key={restaurant.id} restaurant={restaurant} index={index} />
+                            <RestaurantCard key={restaurant.id} restaurant={restaurant} index={index} />
                         ))}
                     </div>
                 </div>

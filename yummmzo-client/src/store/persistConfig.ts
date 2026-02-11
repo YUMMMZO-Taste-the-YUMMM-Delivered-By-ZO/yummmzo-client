@@ -6,7 +6,7 @@ const persistConfig = {
     key: 'root',
     version: 1,
     storage,
-    // whitelist: ['auth'] // Only persist the auth slice if you want
+    whitelist: ['auth' , 'userCurrentLocation'] 
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

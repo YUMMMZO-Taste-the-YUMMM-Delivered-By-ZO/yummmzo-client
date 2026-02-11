@@ -3,7 +3,7 @@ import { MapPin, ArrowRight, Navigation } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-export const HeroSearchBarComponent = () => {
+export const HeroSearchBarComponent = ({ handleGetUserCurrentLocation }: any) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -21,6 +21,7 @@ export const HeroSearchBarComponent = () => {
                     
                     {/* Desktop/iPad: "Use Location" Button */}
                     <button
+                        onClick={handleGetUserCurrentLocation}
                         type="button"
                         className="hidden md:flex items-center gap-1.5 absolute right-2 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg text-caption font-bold text-primary hover:bg-primary/10 transition-colors duration-200"
                     >
@@ -30,6 +31,7 @@ export const HeroSearchBarComponent = () => {
 
                     {/* Mobile: Small Icon version for better fit */}
                     <button
+                        onClick={handleGetUserCurrentLocation}
                         type="button"
                         className="md:hidden flex items-center justify-center absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg text-primary hover:bg-primary/10"
                     >

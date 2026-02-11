@@ -1,3 +1,5 @@
+import { Clock, CreditCard, Headphones, MapPin, Search, Truck } from "lucide-react";
+
 export interface Restaurant {
     id: string;
     name: string;
@@ -57,6 +59,47 @@ export interface User {
     phone: string;
     avatar: string;
 }
+
+export const howItWorks = [
+    {
+        icon: Search,
+        title: "Browse Restaurants",
+        description: "Explore thousands of restaurants near you with menus, ratings, and reviews."
+    },
+    {
+        icon: CreditCard,
+        title: "Place Order",
+        description: "Add items to cart, customize your order, and checkout securely."
+    },
+    {
+        icon: Truck,
+        title: "Get Delivery",
+        description: "Track your order from kitchen to doorstep with live GPS updates."
+    }
+];
+
+export const features = [
+    {
+        icon: MapPin,
+        title: "Real-time Tracking",
+        description: "Track your order from kitchen to doorstep with live GPS updates."
+    },
+    {
+        icon: CreditCard,
+        title: "Secure Payments",
+        description: "Multiple payment options with bank-level security."
+    },
+    {
+        icon: Clock,
+        title: "Fast Delivery",
+        description: "Average delivery time of 30 minutes or less."
+    },
+    {
+        icon: Headphones,
+        title: "24/7 Support",
+        description: "Our support team is always ready to help you."
+    }
+];
 
 export const restaurants: Restaurant[] = [
     {

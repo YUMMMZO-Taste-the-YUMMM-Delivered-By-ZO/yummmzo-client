@@ -14,7 +14,10 @@ export const HeroSearchBarComponent = ({ handleGetUserCurrentLocation }: any) =>
     const [suggestions, setSuggestions] = useState<any[]>([]);
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
     
+    // useDispatch
     const dispatch = useDispatch();
+
+    // useRef
     const timerRef = useRef<number | null>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -47,7 +50,8 @@ export const HeroSearchBarComponent = ({ handleGetUserCurrentLocation }: any) =>
                 const data = await getAddressSuggestions(value);
                 setSuggestions(data);
                 setIsDropdownOpen(data.length > 0);
-            } catch (error) {
+            } 
+            catch (error) {
                 toast({
                     variant: 'destructive',
                     title: "Location Search Failed",

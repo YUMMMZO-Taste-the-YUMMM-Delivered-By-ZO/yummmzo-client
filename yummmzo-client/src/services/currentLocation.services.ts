@@ -16,3 +16,15 @@ export const getAddressSuggestions = async(query: string) => {
         return [];
     };
 };
+
+export const convertCoordinatesToAddress = async(latitude: number | null , longitude: number | null) => {
+    try {
+        const API_URL = `https://us1.locationiq.com/v1/reverse?key=${API_KEY}&lat=${latitude}&lon=${longitude}&format=json&`;
+        const response = await axios.get(API_URL);
+        return response.data;
+    }
+    catch (error) {
+        console.error("LocationIQ Error:", error);
+        return error;
+    };
+};

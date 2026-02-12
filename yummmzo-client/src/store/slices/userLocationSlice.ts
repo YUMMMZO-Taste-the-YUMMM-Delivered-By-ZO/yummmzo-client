@@ -3,13 +3,13 @@ import { createSlice } from "@reduxjs/toolkit";
 interface UserCurrentLocation {
     latitude: number | null,
     longitude: number | null,
-    addressName?: string, 
+    addressDisplayName?: string, 
 };
 
 const initialState: UserCurrentLocation = {
     latitude: null,
     longitude: null,
-    addressName: ""
+    addressDisplayName: ""
 };
 
 export const userCurrentLocationSlice = createSlice({
@@ -19,10 +19,13 @@ export const userCurrentLocationSlice = createSlice({
         setUserCoordinates: (state , action) => {
             state.latitude = action.payload.latitude;
             state.longitude = action.payload.longitude;
+        },
+        setUserAddressDisplayName: (state , action) => {
+            state.addressDisplayName = action.payload;
         }
     },
 });
 
-export const { setUserCoordinates } = userCurrentLocationSlice.actions;
+export const { setUserCoordinates , setUserAddressDisplayName } = userCurrentLocationSlice.actions;
 
 export default userCurrentLocationSlice.reducer;

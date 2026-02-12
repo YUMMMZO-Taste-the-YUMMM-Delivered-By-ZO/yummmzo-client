@@ -1,3 +1,6 @@
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
 import { CTASectionComponent } from "@/components/landing/CTASectionComponent";
 import { FeatureCardComponent } from "@/components/landing/FeatureCardComponent";
@@ -13,13 +16,12 @@ import { HowItWorksStepCardComponent } from "@/components/landing/HowItWorksStep
 import { PopularRestaurantsSectionHeaderComponent } from "@/components/landing/PopularRestaurantsSectionHeaderComponent";
 import { Footer } from "@/components/layout/Footer";
 import { Navbar } from "@/components/layout/Navbar";
-import { features, howItWorks, restaurants } from "@/data/mockData";
+import { features, howItWorks } from "@/data/mockData";
 import { getCurrentLocation } from "@/helpers/getCurrentLocation";
 import { toast } from "@/hooks/use-toast";
+import { getTopPicksService } from "@/services/landing";
+import type { RootState } from "@/store";
 import { setUserCoordinates } from "@/store/slices/userLocationSlice";
-import { motion } from "framer-motion";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 
 const staggerContainer = {
     animate: {
@@ -33,30 +35,59 @@ export default function Landing() {
     // useDispatch
     const dispatch = useDispatch();
 
+    // useSelector
+    const { latitude, longitude } = useSelector((state: RootState) => state.userCurrentLocation);
+
+    // State Variables
+    const [topPicks, setTopPicks] = useState<any[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
     // Handler Functions
     const handleGetUserCurrentLocation = async () => {
         try {
             const coords = await getCurrentLocation();
             dispatch(setUserCoordinates(coords));
             toast({
-                variant:'default',
-                title: "Location Fetched!",
-                description: "Showing Restaurants near your location."
-            })
+                title: "Location Updated",
+                description: "Finding the best flavors near you!"
+            });
         } 
         catch (error: any) {
             toast({
                 variant: 'destructive',
-                title: "Location Error",
-                description: error.message || "Could not fetch location."
+                title: "Location Access Denied",
+                description: error.message || "Please enable location to see nearby restaurants."
             });
-        };
+        }
     };
 
     // useEffect
     useEffect(() => {
         handleGetUserCurrentLocation();
     }, []);
+
+    useEffect(() => {
+        const fetchTopPicks = async () => {
+            if (!latitude || !longitude){
+                return;
+            };
+            
+            try {
+                setIsLoading(true);
+                setTopPicks([]);
+                const data = await getTopPicksService(latitude, longitude);
+                setTopPicks(data || []);
+            } 
+            catch (error) {
+                console.error("Fetch Error:", error);
+            } 
+            finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchTopPicks();
+    }, [latitude, longitude]);
 
     return (
         <div className="min-h-screen bg-background">
@@ -65,16 +96,14 @@ export default function Landing() {
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
                 <HeroBackgroundPatternComponent />
-
                 <div className="container mx-auto px-4 relative z-10">
                     <div className="max-w-4xl mx-auto text-center">
                         <HeroBadgeComponent />
                         <HeroHeadingComponent />
-                        <HeroSearchBarComponent handleGetUserCurrentLocation={handleGetUserCurrentLocation}/>
+                        <HeroSearchBarComponent handleGetUserCurrentLocation={handleGetUserCurrentLocation} />
                         <HeroStatsComponent />
                     </div>
                 </div>
-
                 <HeroFloatingImagesComponent />
             </section>
 
@@ -82,7 +111,6 @@ export default function Landing() {
             <section id="how-it-works" className="py-20 md:py-32 bg-card/50">
                 <div className="container mx-auto px-4">
                     <HowItWorksSectionHeaderComponent />
-
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
@@ -91,35 +119,60 @@ export default function Landing() {
                         className="grid grid-cols-1 md:grid-cols-3 gap-8"
                     >
                         {howItWorks.map((step, index) => (
-                            <HowItWorksStepCardComponent
-                                key={index}
-                                step={step}
-                                index={index}
-                                isLast={index === howItWorks.length - 1}
-                            />
+                            <HowItWorksStepCardComponent key={index} step={step} index={index} isLast={index === howItWorks.length - 1} />
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* Popular Restaurants */}
+            {/* Popular Restaurants Section*/}
             <section className="py-20 md:py-32">
                 <div className="container mx-auto px-4">
                     <PopularRestaurantsSectionHeaderComponent />
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                        {restaurants.slice(0, 8).map((restaurant, index) => (
-                            <RestaurantCard key={restaurant.id} restaurant={restaurant} index={index} />
-                        ))}
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+                        {
+                            isLoading ? 
+                            (
+                                [...Array(4)].map((_, i) => (
+                                    <div key={i} className="aspect-square bg-card animate-pulse rounded-2xl border border-border flex flex-col p-4 gap-4">
+                                        <div className="flex-1 bg-muted rounded-xl" />
+                                        <div className="h-4 w-2/3 bg-muted rounded" />
+                                        <div className="h-4 w-1/2 bg-muted rounded" />
+                                    </div>
+                                ))
+                            )
+                            : 
+                            (topPicks.length > 0) ? 
+                                (
+                                    topPicks.map((tp, index) => (
+                                        <RestaurantCard 
+                                            key={tp.id} 
+                                            index={index}
+                                            restaurant={{
+                                                ...tp,
+                                                cuisine: tp.cuisine || "Multi-Cuisine", 
+                                                priceRange: `₹${tp.priceForTwo} for two`,
+                                                isOpen: tp.status === "OPEN" 
+                                            }} 
+                                        />
+                                    ))
+                                    ) 
+                                    : 
+                                    (
+                                        <div className="col-span-full text-center py-20 bg-card/30 rounded-3xl border-2 border-dashed border-border">
+                                            <p className="text-muted-foreground">No restaurants found nearby. Try searching a different area!</p>
+                                        </div>
+                                    )
+                        }
                     </div>
                 </div>
             </section>
 
-            {/* Features */}
+            {/* Features Section */}
             <section id="features" className="py-20 md:py-32 bg-card/50">
                 <div className="container mx-auto px-4">
                     <FeaturesSectionHeaderComponent />
-
                     <motion.div
                         variants={staggerContainer}
                         initial="initial"
@@ -135,7 +188,6 @@ export default function Landing() {
             </section>
 
             <CTASectionComponent />
-
             <Footer />
         </div>
     );

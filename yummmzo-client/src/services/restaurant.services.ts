@@ -5,14 +5,14 @@ const API_ENDPOINT="http://localhost:3000/api/v1/restaurant";
 export async function getTopPicksService(latitude: number , longitude: number) {
     try {
         if(!latitude || !longitude){
-            return null;
+            return [];
         };
 
         let lat = latitude;
         let lng = longitude;
 
         const response = await axios.get(`${API_ENDPOINT}/top-picks?lat=${lat}&lng=${lng}` , {});
-        return response.data.data.topPicks;
+        return response.data.data;
     }
     catch (error) {
         console.log("Error Getting Top Picks :", error);
@@ -34,7 +34,35 @@ export async function getAllCuisinesService() {
 
 export async function getAllRestaurantsService(filters: any) {
     try {
-        // logic....
+        const params = new URLSearchParams();
+
+        params.append("lat", String(filters.lat));
+        params.append("lng", String(filters.lng));
+
+        if (filters.search){
+            params.append("search", filters.search);
+        };
+        if (filters.cuisine.length){
+            params.append("cuisine", filters.cuisine.join(","));
+        };
+        if (filters.rating){
+            params.append("rating", filters.rating);
+        };
+        if (filters.priceRange){
+            params.append("priceRange", filters.priceRange);
+        };
+        if (filters.sort){
+            params.append("sort", filters.sort);
+        };
+        if (filters.page){
+            params.append("page", String(filters.page));
+        };
+        if (filters.limit){
+            params.append("limit", String(filters.limit));
+        };
+
+        const response = await axios.get(`${API_ENDPOINT}?${params.toString()}`);
+        return response.data.data;
     } 
     catch (error) {
         console.log("Error Getting All Restaurants :", error);

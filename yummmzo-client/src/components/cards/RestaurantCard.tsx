@@ -5,77 +5,69 @@ import { Button } from "@/components/ui/button";
 
 export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, index?: number }) {
     
-    // Formating Price
-    const formattedPrice = restaurant.priceForTwo ? `₹${restaurant.priceForTwo} for two` : null;
-
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.3, delay: index * 0.05 }}
-            whileHover={{ y: -4 }}
-            className="group"
+            className="group w-full"
         >
             <Link to={`/restaurant/${restaurant.id}`}>
-                <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-card transition-all duration-300 group-hover:shadow-elevated group-hover:border-primary/30">
+                {/* FIXED: Removed white border. Using primary-tinted (greenish) thin border */}
+                <div className="bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden border border-primary/10 transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover:shadow-glow">
                     
-                    {/* Image Section */}
-                    <div className="relative aspect-square overflow-hidden">
+                    {/* Image Section: 16:10 Ratio for better horizontal density */}
+                    <div className="relative aspect-[16/10] overflow-hidden">
                         {restaurant.image && (
                             <img
                                 src={restaurant.image}
                                 alt={restaurant.name}
-                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                                className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />
                         )}
                         
-                        {/* Status Check */}
-                        {restaurant.status !== "OPEN" && (
-                            <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-                                <span className="text-sm font-medium text-muted-foreground uppercase tracking-wider">
-                                    Closed
-                                </span>
-                            </div>
-                        )}
-
-                        {/* Rating Badge */}
+                        {/* Rating Badge: Matching the primary-tinted UI */}
                         {restaurant.rating > 0 && (
-                            <div className="absolute top-3 right-3">
-                                <div className="flex items-center gap-1 bg-card/90 backdrop-blur-sm px-2.5 py-1 rounded-full border border-border/50">
-                                    <Star className="h-3.5 w-3.5 text-rating fill-rating" />
-                                    <span className="text-xs font-bold">{restaurant.rating}</span>
+                            <div className="absolute top-2 right-2">
+                                <div className="flex items-center gap-1 bg-background/60 backdrop-blur-md px-2 py-0.5 rounded-lg border border-primary/20 shadow-lg">
+                                    <Star className="h-3 w-3 text-rating fill-rating" />
+                                    <span className="text-[11px] font-bold text-foreground">{restaurant.rating}</span>
                                 </div>
                             </div>
                         )}
                     </div>
 
                     {/* Content Section */}
-                    <div className="p-4">
-                        <h3 className="font-bold text-foreground text-lg mb-1 truncate group-hover:text-primary transition-colors">
+                    <div className="p-3">
+                        <h3 className="font-bold text-foreground text-[14px] mb-0.5 truncate group-hover:text-primary transition-colors">
                             {restaurant.name}
                         </h3>
                         
-                        {/* Location as a fallback for cuisine */}
-                        <p className="text-xs text-muted-foreground mb-4 truncate italic">
-                            {restaurant.location || "Nearby"}
+                        <p className="text-[11px] text-muted-foreground mb-3 truncate font-medium">
+                            {restaurant.location?.split(',')[0] || "Nearby"} • {restaurant.cuisine?.split(',')[0] || "Fast Food"}
                         </p>
 
                         <div className="flex items-center justify-between">
-                            <div className="flex items-center gap-3 text-[11px] font-medium text-muted-foreground uppercase tracking-tight">
+                            {/* Info Section: Clean & Minimalistic */}
+                            <div className="flex items-center gap-2">
                                 {restaurant.deliveryTime && (
-                                    <span className="flex items-center gap-1 bg-muted/50 px-2 py-0.5 rounded">
-                                        <Clock className="h-3 w-3" />
-                                        {restaurant.deliveryTime}
-                                    </span>
+                                    <div className="flex items-center gap-1">
+                                        <Clock className="h-3 w-3 text-primary/70" />
+                                        <span className="text-[10px] font-bold text-foreground/70 uppercase">
+                                            {restaurant.deliveryTime.split(' ')[0]} min
+                                        </span>
+                                    </div>
                                 )}
-                                {formattedPrice && (
-                                    <span className="bg-muted/50 px-2 py-0.5 rounded">
-                                        {formattedPrice}
+                                <span className="text-white/5 text-[10px]">|</span>
+                                {restaurant.priceForTwo && (
+                                    <span className="text-[10px] font-bold text-foreground/70 uppercase tracking-tight">
+                                        ₹{restaurant.priceForTwo} FOR TWO
                                     </span>
                                 )}
                             </div>
                             
-                            <Button size="sm" className="h-8 w-8 p-0 rounded-full bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground transition-all">
+                            {/* Primary Button for Adding */}
+                            <Button size="icon" className="h-7 w-7 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-black transition-all">
                                 <Plus className="h-4 w-4" />
                             </Button>
                         </div>

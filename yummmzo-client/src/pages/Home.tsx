@@ -1,11 +1,8 @@
 import { useEffect, useState } from "react";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { restaurants, menuItems } from "@/data/mockData"; // Removed mock categories as we use API now
 import { TopBarComponent } from "@/components/home/TopBarComponent";
 import { SearchBarComponent } from "@/components/home/SearchBarComponent";
 import { PromoCarouselComponent } from "@/components/home/PromoCarouselComponent"; 
-import { CategoryPillsComponent } from "@/components/home/CategoryPillsComponent";
-import { BestChoiceSectionComponent } from "@/components/home/BestChoiceSectionComponent";
 import { AllRestaurantsSectionComponent } from "@/components/home/AllRestaurantsSectionComponent";
 import { FilterSortComponent } from "@/components/home/FilterSortComponent";
 import { SlidersHorizontal } from "lucide-react";
@@ -14,33 +11,33 @@ import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { setUserAddressDisplayName } from "@/store/slices/userLocationSlice";
 import { useQuery } from "@tanstack/react-query";
-import { getAllCuisinesService } from "@/services/restaurant.services";
+import { getAllCuisinesService, getAllRestaurantsService, getTopPicksService } from "@/services/restaurant.services";
+import { TopPicksSectionComponent } from "@/components/home/TopPicksSectionComponent";
+import { CuisinePillsComponent } from "@/components/home/CuisinePillsComponent";
+import { useSearchParams } from "react-router-dom";
 
 export default function Home() {
+    // useSearchParams
+    const [searchParams , setSearchParams] = useSearchParams();
+
     // useSelector
     const { latitude, longitude } = useSelector((state: RootState) => state.userCurrentLocation);
+    const isRehydrated = useSelector((state: RootState) => state._persist?.rehydrated);
 
     // useDispatch
     const dispatch = useDispatch();
 
     // State Variables
-    const [activeCategory, setActiveCategory] = useState("All Type");
-    const [searchQuery, setSearchQuery] = useState("");
     const [showSearch, setShowSearch] = useState(false);
     const [isFilterOpen, setIsFilterOpen] = useState(false);
-
-    // Filter Logic
-    const filteredRestaurants = restaurants.filter((r) => {
-        const matchesCategory = activeCategory === "All Type" || r.cuisine.toLowerCase().includes(activeCategory.toLowerCase());
-        const matchesSearch = !searchQuery || r.name.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
-    });
-
-    // useQuery
-    const { data: cuisines = [] , isLoading: isCuisinesLoading , error: cuisinesError } = useQuery({
-        queryKey: ["cuisines"],
-        queryFn: () => getAllCuisinesService(),
-        staleTime: 1000 * 60 * 5
+    const [filters, setFilters] = useState({
+        search: searchParams.get("search") || "",
+        cuisine: searchParams.get("cuisine")?.split(",").filter(Boolean) || [],
+        rating: searchParams.get("rating") || "",
+        priceRange: searchParams.get("priceRange") || "",
+        sort: searchParams.get("sort") || "DISTANCE",
+        page: Number(searchParams.get("page")) || 1,
+        limit: 12
     });
 
     // useEffect
@@ -62,20 +59,75 @@ export default function Home() {
         getUserAddress();
     }, [latitude, longitude, dispatch]);
 
+    useEffect(() => {
+        const params: Record<string, string> = {};
+
+        if (filters.search){
+            params.search = filters.search;
+        };
+        if (filters.cuisine.length){
+            params.cuisine = filters.cuisine.join(",");
+        };
+        if (filters.rating){
+            params.rating = filters.rating;
+        };
+        if (filters.priceRange){
+            params.priceRange = filters.priceRange;
+        };
+        if (filters.sort !== "DISTANCE"){
+            params.sort = filters.sort;
+        };
+        if (filters.page > 1){
+            params.page = String(filters.page);
+        };
+
+        setSearchParams(params);
+    }, [filters.cuisine , filters.priceRange , filters.rating , filters.search , filters.sort , filters.limit , filters.page]);
+
+    // useQuery
+    const { data: cuisinesData , isLoading: isCuisinesLoading } = useQuery({
+        queryKey: ["cuisines"],
+        queryFn: () => getAllCuisinesService(),
+        staleTime: 1000 * 60 * 5
+    });
+
+    const { data: topPicksData , isLoading: isTopPicksLoading } = useQuery({
+        queryKey: ["topPicks" , latitude , longitude],
+        queryFn: () => getTopPicksService(latitude! , longitude!),
+        enabled: !!(isRehydrated && latitude && longitude),  // ✅
+        staleTime: 1000 * 60 * 5
+    });
+
+    const { data: restaurantsData , isLoading: isRestaurantsLoading } = useQuery({
+        queryKey: ["restaurants" , filters , latitude, longitude],
+        queryFn: () => getAllRestaurantsService({
+            ...filters, 
+            lat: latitude,
+            lng: longitude
+        }),
+        enabled: !!(isRehydrated && latitude && longitude),  // ✅
+        staleTime: 1000 * 60 * 5
+    });
+
+    const cuisines = Array.isArray(cuisinesData?.cuisines) ? cuisinesData.cuisines : [];
+    console.log(cuisines);
+    const topPicks = Array.isArray(topPicksData?.topPicks) ? topPicksData.topPicks : [];
+    console.log(topPicks);
+    const restaurants = Array.isArray(restaurantsData?.restaurants) ? restaurantsData.restaurants : [];
+    console.log(restaurants);
+    const pagination = restaurantsData?.pagination || null;
+    console.log(pagination);
+
     return (
         <div className="min-h-screen bg-background pb-24 md:pb-0">
             <TopBarComponent showSearch={showSearch} setShowSearch={setShowSearch} />
             <div className="container mx-auto px-4 mt-4">
                 <SearchBarComponent 
-                    showSearch={showSearch} 
-                    searchQuery={searchQuery} 
-                    setSearchQuery={setSearchQuery} 
                 />
             </div>
             <main className="container mx-auto px-4 py-6">
                 <PromoCarouselComponent />
                 <div className="space-y-4 mb-8">
-                    {/* Updated Category Pills with Loading Check */}
                     {
                         isCuisinesLoading ? 
                             (
@@ -87,7 +139,7 @@ export default function Home() {
                             )
                             : 
                             (
-                                <CategoryPillsComponent 
+                                <CuisinePillsComponent
                                     cuisines={cuisines} 
                                 />
                             )
@@ -98,12 +150,11 @@ export default function Home() {
                         <span className="font-bold text-body-sm">Filters & Sort</span>
                     </button>
                 </div>
-                <BestChoiceSectionComponent bestChoiceItems={menuItems.slice(0, 6)} />
+                <TopPicksSectionComponent topPicks={topPicks} isTopPicksLoading={isTopPicksLoading}/>
                 <AllRestaurantsSectionComponent 
-                    filteredRestaurants={filteredRestaurants} 
-                    searchQuery={searchQuery} 
-                    setSearchQuery={setSearchQuery} 
-                    setActiveCategory={setActiveCategory} 
+                    filteredRestaurants={restaurants}
+                    isLoading={isRestaurantsLoading}
+                    totalCount={pagination?.total || 0}
                 />
             </main>
             <FilterSortComponent isOpen={isFilterOpen} onClose={() => setIsFilterOpen(false)} />

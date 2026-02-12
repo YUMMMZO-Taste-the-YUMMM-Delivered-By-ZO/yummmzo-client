@@ -22,6 +22,7 @@ import { toast } from "@/hooks/use-toast";
 import { getTopPicksService } from "@/services/restaurant.services";
 import type { RootState } from "@/store";
 import { setUserCoordinates } from "@/store/slices/userLocationSlice";
+import { useQuery } from "@tanstack/react-query";
 
 const staggerContainer = {
     animate: {
@@ -39,7 +40,6 @@ export default function Landing() {
     const { latitude, longitude } = useSelector((state: RootState) => state.userCurrentLocation);
 
     // State Variables
-    const [topPicks, setTopPicks] = useState<any[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
     // Handler Functions
@@ -66,28 +66,13 @@ export default function Landing() {
         handleGetUserCurrentLocation();
     }, []);
 
-    useEffect(() => {
-        const fetchTopPicks = async () => {
-            if (!latitude || !longitude){
-                return;
-            };
-            
-            try {
-                setIsLoading(true);
-                setTopPicks([]);
-                const data = await getTopPicksService(latitude, longitude);
-                setTopPicks(data || []);
-            } 
-            catch (error) {
-                console.error("Fetch Error:", error);
-            } 
-            finally {
-                setIsLoading(false);
-            }
-        };
-
-        fetchTopPicks();
-    }, [latitude, longitude]);
+    // useQuery
+    const { data: topPicks = [] , isLoading: isTopPicksLoading , error: topPicksError } = useQuery({
+        queryKey: ["topPicks" , latitude , longitude],
+        queryFn: () => getTopPicksService(latitude! , longitude!),
+        enabled: !!(latitude && longitude),
+        staleTime: 1000 * 60 * 5
+    });
 
     return (
         <div className="min-h-screen bg-background">

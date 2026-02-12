@@ -14,8 +14,8 @@ export interface SearchBarComponentProps {
     setSearchQuery: (query: string) => void;
 };
 
-export interface CategoryPillsComponentProps {
-    categories: string[];
+export interface CuisinePillsComponentProps {
+    cuisines: string[];
     activeCategory: string;
     setActiveCategory: (category: string) => void;
 };

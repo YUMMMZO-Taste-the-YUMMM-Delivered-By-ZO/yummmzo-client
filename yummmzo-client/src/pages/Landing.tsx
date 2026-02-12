@@ -19,7 +19,7 @@ import { Navbar } from "@/components/layout/Navbar";
 import { features, howItWorks } from "@/data/mockData";
 import { getCurrentLocation } from "@/helpers/getCurrentLocation";
 import { toast } from "@/hooks/use-toast";
-import { getTopPicksService } from "@/services/landing";
+import { getTopPicksService } from "@/services/restaurant.services";
 import type { RootState } from "@/store";
 import { setUserCoordinates } from "@/store/slices/userLocationSlice";
 

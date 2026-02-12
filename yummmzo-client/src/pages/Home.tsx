@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { restaurants, categories, menuItems } from "@/data/mockData";
+import { restaurants, menuItems } from "@/data/mockData"; // Removed mock categories as we use API now
 import { TopBarComponent } from "@/components/home/TopBarComponent";
 import { SearchBarComponent } from "@/components/home/SearchBarComponent";
 import { PromoCarouselComponent } from "@/components/home/PromoCarouselComponent"; 
@@ -13,6 +13,8 @@ import { convertCoordinatesToAddress } from "@/services/currentLocation.services
 import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "@/store";
 import { setUserAddressDisplayName } from "@/store/slices/userLocationSlice";
+import { useQuery } from "@tanstack/react-query";
+import { getAllCuisinesService } from "@/services/restaurant.services";
 
 export default function Home() {
     // useSelector
@@ -32,6 +34,13 @@ export default function Home() {
         const matchesCategory = activeCategory === "All Type" || r.cuisine.toLowerCase().includes(activeCategory.toLowerCase());
         const matchesSearch = !searchQuery || r.name.toLowerCase().includes(searchQuery.toLowerCase());
         return matchesCategory && matchesSearch;
+    });
+
+    // useQuery
+    const { data: cuisines = [] , isLoading: isCuisinesLoading , error: cuisinesError } = useQuery({
+        queryKey: ["cuisines"],
+        queryFn: () => getAllCuisinesService(),
+        staleTime: 1000 * 60 * 5
     });
 
     // useEffect
@@ -66,11 +75,24 @@ export default function Home() {
             <main className="container mx-auto px-4 py-6">
                 <PromoCarouselComponent />
                 <div className="space-y-4 mb-8">
-                    <CategoryPillsComponent 
-                        categories={categories} 
-                        activeCategory={activeCategory} 
-                        setActiveCategory={setActiveCategory} 
-                    />
+                    {/* Updated Category Pills with Loading Check */}
+                    {
+                        isCuisinesLoading ? 
+                            (
+                                <div className="flex gap-3 overflow-x-auto pb-2">
+                                    {[1, 2, 3, 4, 5].map((i) => (
+                                        <div key={i} className="h-10 w-24 bg-card animate-pulse rounded-full shrink-0" />
+                                    ))}
+                                </div>
+                            )
+                            : 
+                            (
+                                <CategoryPillsComponent 
+                                    cuisines={cuisines} 
+                                />
+                            )
+                    }
+                    
                     <button onClick={() => setIsFilterOpen(true)} className="flex items-center gap-2 px-5 py-2.5 rounded-xl border border-border bg-card/40 backdrop-blur-md hover:border-primary/50 text-foreground transition-all group shadow-sm hover-lift active:scale-95">
                         <SlidersHorizontal className="w-4 h-4 text-primary group-hover:rotate-12 transition-transform" />
                         <span className="font-bold text-body-sm">Filters & Sort</span>

@@ -37,8 +37,12 @@ export default function Landing() {
     const handleGetUserCurrentLocation = async () => {
         try {
             const coords = await getCurrentLocation();
-            console.log("User Coordinates :", coords);
             dispatch(setUserCoordinates(coords));
+            toast({
+                variant:'default',
+                title: "Location Fetched!",
+                description: "Showing Restaurants near your location."
+            })
         } 
         catch (error: any) {
             toast({

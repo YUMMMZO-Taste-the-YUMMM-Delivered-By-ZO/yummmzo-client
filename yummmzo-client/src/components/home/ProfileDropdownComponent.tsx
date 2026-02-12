@@ -18,8 +18,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import { logoutService } from "@/services/auth.services";
 import { toast } from "@/hooks/use-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "@/store/slices/authSlice";
+import type { RootState } from "@/store";
 
 export const ProfileDropdownComponent = () => {
     // useNavigate
@@ -27,6 +28,9 @@ export const ProfileDropdownComponent = () => {
 
     // useDispatch
     const dispatch = useDispatch();
+
+    // useSelector
+    const { name , email } = useSelector((state: RootState) => state.auth.user);
 
     // useMutation
     const logoutMutation = useMutation({
@@ -67,8 +71,8 @@ export const ProfileDropdownComponent = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56 bg-card border-border">
                 <div className="px-3 py-2">
-                    <p className="font-medium">John Doe</p>
-                    <p className="text-sm text-muted-foreground">john.doe@example.com</p>
+                    <p className="font-medium">{name}</p>
+                    <p className="text-sm text-muted-foreground">{email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>

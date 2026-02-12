@@ -5,7 +5,7 @@ import { ProfileCardComponent } from "@/components/profile/ProfileCardComponent"
 import { ProfileHeaderComponent } from "@/components/profile/ProfileHeaderComponent";
 import { ProfileMenuItemsComponent } from "@/components/profile/ProfileMenuItemsComponent";
 import { QuickStatsComponent } from "@/components/profile/QuickStatsComponent";
-import { user, addresses } from "@/data/mockData";
+import { addresses } from "@/data/mockData";
 
 export default function Profile() {
     return (
@@ -13,7 +13,7 @@ export default function Profile() {
             <ProfileHeaderComponent />
 
             <main className="container mx-auto px-4 py-6 space-y-6">
-                <ProfileCardComponent user={user} />
+                <ProfileCardComponent/>
 
                 <QuickStatsComponent />
 

@@ -16,14 +16,6 @@ export const PreferencesComponent = () => {
         >
             <h3 className="font-semibold">Preferences</h3>
 
-            <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <Bell className="h-5 w-5 text-muted-foreground" />
-                    <span>Push Notifications</span>
-                </div>
-                <Switch defaultChecked />
-            </div>
-
             <Separator />
 
             <div className="flex items-center justify-between">

@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { ArrowLeft, Edit2 } from "lucide-react";
+import { ArrowLeft, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const ProfileHeaderComponent = () => {
@@ -15,7 +15,7 @@ export const ProfileHeaderComponent = () => {
                     <h1 className="font-semibold">Profile</h1>
                     <Link to="/settings">
                         <Button variant="ghost" size="icon">
-                            <Edit2 className="h-5 w-5" />
+                            <Settings className="h-5 w-5" />
                         </Button>
                     </Link>
                 </div>

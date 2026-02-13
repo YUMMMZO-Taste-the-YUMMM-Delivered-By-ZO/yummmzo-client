@@ -1,6 +1,5 @@
 import { BottomNav } from "@/components/layout/BottomNav";
 import { AppInfoComponent } from "@/components/settings/AppInfoComponent";
-import { DangerZoneComponent } from "@/components/settings/DangerZoneComponent";
 import { SettingGroupComponent } from "@/components/settings/SettingGroupComponent";
 import { SettingsHeaderComponent } from "@/components/settings/SettingsHeaderComponent";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -8,7 +7,6 @@ import {
     Bell,
     Globe,
     Lock,
-    CreditCard,
     Smartphone,
     Mail,
     Moon,
@@ -28,6 +26,7 @@ export default function Settings() {
                     label: "Push Notifications",
                     type: "toggle" as const,
                     defaultValue: true,
+                    disabled: true,
                 },
                 {
                     icon: Mail,
@@ -40,6 +39,7 @@ export default function Settings() {
                     label: "SMS Notifications",
                     type: "toggle" as const,
                     defaultValue: false,
+                    disabled: true,
                 },
             ],
         },
@@ -62,16 +62,6 @@ export default function Settings() {
             ],
         },
         {
-            title: "Payment",
-            items: [
-                {
-                    icon: CreditCard,
-                    label: "Payment Methods",
-                    type: "link" as const,
-                },
-            ],
-        },
-        {
             title: "Security",
             items: [
                 {
@@ -84,6 +74,7 @@ export default function Settings() {
                     label: "Two-Factor Authentication",
                     type: "toggle" as const,
                     defaultValue: false,
+                    disabled: true,
                 },
             ],
         },
@@ -102,8 +93,6 @@ export default function Settings() {
                         groupIndex={groupIndex}
                     />
                 ))}
-
-                <DangerZoneComponent />
 
                 <AppInfoComponent />
             </main>

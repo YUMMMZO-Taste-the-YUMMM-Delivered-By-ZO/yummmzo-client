@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Star, Clock, Plus } from "lucide-react";
+import { Star, Clock, Plus, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, index?: number }) {
@@ -13,11 +13,9 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
             className="group w-full"
         >
             <Link to={`/restaurant/${restaurant.id}`}>
-            
-                {/* FIXED: Removed white border. Using primary-tinted (greenish) thin border */}
                 <div className="bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden border border-primary/10 transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover:shadow-glow">
                     
-                    {/* Image Section: 16:10 Ratio for better horizontal density */}
+                    {/* Image Section */}
                     <div className="relative aspect-[16/10] overflow-hidden">
                         {restaurant.image && (
                             <img
@@ -27,7 +25,19 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
                             />
                         )}
                         
-                        {/* Rating Badge: Matching the primary-tinted UI */}
+                        {/* Heart Button - Top Left */}
+                        <button
+                            onClick={(e) => {
+                                e.preventDefault(); // prevent Link navigation
+                                // TODO: toggle favourite — call API / update Redux state
+                            }}
+                            className="absolute top-2 left-2 w-7 h-7 flex items-center justify-center rounded-full bg-background/60 backdrop-blur-md border border-primary/20 hover:bg-background/80 transition-all"
+                        >
+                            <Heart className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive transition-colors" />
+                            {/* TODO: when isFavourite = true → className="text-destructive fill-destructive" */}
+                        </button>
+
+                        {/* Rating Badge - Top Right */}
                         {restaurant.rating > 0 && (
                             <div className="absolute top-2 right-2">
                                 <div className="flex items-center gap-1 bg-background/60 backdrop-blur-md px-2 py-0.5 rounded-lg border border-primary/20 shadow-lg">
@@ -49,7 +59,6 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
                         </p>
 
                         <div className="flex items-center justify-between">
-                            {/* Info Section: Clean & Minimalistic */}
                             <div className="flex items-center gap-2">
                                 {restaurant.deliveryTime && (
                                     <div className="flex items-center gap-1">
@@ -67,7 +76,6 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
                                 )}
                             </div>
                             
-                            {/* Primary Button for Adding */}
                             <Button size="icon" className="h-7 w-7 rounded-lg bg-primary/10 hover:bg-primary text-primary hover:text-black transition-all">
                                 <Plus className="h-4 w-4" />
                             </Button>

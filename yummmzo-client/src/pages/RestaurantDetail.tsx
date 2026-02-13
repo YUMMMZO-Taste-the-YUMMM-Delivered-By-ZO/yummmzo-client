@@ -1,10 +1,5 @@
-import { useState } from "react";
-import { useParams } from "react-router-dom";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { restaurants, menuItems } from "@/data/mockData";
-import { useCart } from "@/contexts/CartContext";
 import { RestaurantDetailHeaderComponent } from "@/components/restaurant-detail/RestaurantDetailHeaderComponent";
-import { RestaurantDetailSearchBarComponent } from "@/components/restaurant-detail/RestaurantDetailSearchBarComponent";
 import { RestaurantHeroImageComponent } from "@/components/restaurant-detail/RestaurantHeroImageComponent";
 import { RestaurantInfoCardComponent } from "@/components/restaurant-detail/RestaurantInfoCardComponent";
 import { MenuTabsComponent } from "@/components/restaurant-detail/MenuTabsComponent";
@@ -12,84 +7,92 @@ import { MenuGridComponent } from "@/components/restaurant-detail/MenuGridCompon
 import { FloatingCartButtonComponent } from "@/components/restaurant-detail/FloatingCartButtonComponent";
 import { MenuFilterComponent } from "@/components/restaurant-detail/MenuFilterComponent";
 import { RestaurantReviewsComponent } from "@/components/restaurant-detail/RestaurantReviewsComponent";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { getRestaurantDetailsService, getRestaurantMenuService } from "@/services/restaurant.services";
+import { useSelector } from "react-redux";
+import type { RootState } from "@/store";
 
 export default function RestaurantDetail() {
-    const { id } = useParams();
-    const [activeTab, setActiveTab] = useState("All");
-    const [searchQuery, setSearchQuery] = useState("");
-    const [showSearch, setShowSearch] = useState(false);
-    const [isFilterOpen, setIsFilterOpen] = useState(false);
-    const { items, total } = useCart();
+    // useSelector
+    const { latitude , longitude } = useSelector((state: RootState) => state.userCurrentLocation);
 
-    const restaurant = restaurants.find((r) => r.id === id) || restaurants[0];
-    const restaurantMenuItems = menuItems.filter(
-        (item) => item.restaurantId === id
-    );
-
-    const menuCategories = ["All", ...new Set(restaurantMenuItems.map((item) => item.category))];
-
-    const filteredItems = restaurantMenuItems.filter((item) => {
-        const matchesCategory = activeTab === "All" || item.category === activeTab;
-        const matchesSearch =
-            !searchQuery ||
-            item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            item.description.toLowerCase().includes(searchQuery.toLowerCase());
-        return matchesCategory && matchesSearch;
+    // State Variables
+    const [activeTab , setActiveTab] = useState(null);
+    const [searchQuery , setSearchQuery] = useState("");
+    const [showSearch , setShowSearch] = useState(false);
+    const [isFilterOpen , setIsFilterOpen] = useState(false);
+    const [filters , setFilters] = useState({
+        search: "",
+        sort: "RECOMMENDED",
+        isVeg: false,
+        isBestseller: false,
+        spiceLevel: "NORMAL"
     });
 
-    const itemCount = items.reduce((sum, item) => sum + item.quantity, 0);
+    // useParams
+    const { id: restaurantId } = useParams();
 
+    // useQuery
+    const { data: restaurantData , isLoading: isRestaurantDataLoading } = useQuery({
+        queryKey: ["restaurantDetails" , restaurantId],
+        queryFn: () => getRestaurantDetailsService(Number(restaurantId) , latitude! , longitude!),
+        enabled: !!restaurantId && !!latitude && !!longitude
+    });
+    console.log(restaurantData);
+
+    const { data: restaurantMenu , isLoading: isRestaurantMenuLoading } = useQuery({
+        queryKey: ["restaurantMenu" , restaurantId],
+        queryFn: () => getRestaurantMenuService(Number(restaurantId)! , filters!),
+        enabled: !!restaurantId && !!latitude && !!longitude
+    });
+    console.log(restaurantMenu);
+
+    // Handler Functions
+    const handleShowSearch = () => {
+        setShowSearch(!showSearch);
+        console.log(showSearch)
+    };
+
+    const handleShowItems = (categoryId: any) => {
+        console.log(categoryId);
+        setActiveTab(categoryId);
+    };
+
+    // useEffect
+    useEffect(() => {
+        if (restaurantMenu && restaurantMenu.length > 0) {
+            setActiveTab(restaurantMenu[0].id);
+        }
+    }, [restaurantMenu]);
+
+    // TODO: Add useCart hook for itemCount and total
     return (
         <div className="min-h-screen bg-background pb-24">
-            <RestaurantDetailHeaderComponent
-                restaurantName={restaurant.name}
-                showSearch={showSearch}
-                setShowSearch={setShowSearch}
-            />
+            <RestaurantDetailHeaderComponent handleShowSearch={handleShowSearch} showSearch={showSearch} restaurantData={restaurantData}/>
 
-            <RestaurantDetailSearchBarComponent
-                showSearch={showSearch}
-                searchQuery={searchQuery}
-                setSearchQuery={setSearchQuery}
-            />
+            <RestaurantHeroImageComponent restaurantData={restaurantData}/>
 
-            <RestaurantHeroImageComponent
-                image={restaurant.image}
-                name={restaurant.name}
-            />
-
-            <RestaurantInfoCardComponent restaurant={restaurant} />
+            <RestaurantInfoCardComponent restaurantData={restaurantData}/>
 
             <div className="container mx-auto px-4">
-                <MenuTabsComponent
-                    menuCategories={menuCategories}
-                    activeTab={activeTab}
-                    setActiveTab={setActiveTab}
-                    onFilterClick={() => setIsFilterOpen(true)}
-                />
+                <MenuTabsComponent restaurantMenu={restaurantMenu} handleShowItems={handleShowItems} activeTab={activeTab}/>
 
-                <MenuGridComponent
-                    filteredItems={filteredItems}
-                    searchQuery={searchQuery}
-                    setSearchQuery={setSearchQuery}
-                    setActiveTab={setActiveTab}
-                />
+                <MenuGridComponent restaurantMenu={restaurantMenu} activeTab={activeTab}/>
 
-                {/* Highly requested Review Section */}
                 <div className="mt-16 pt-16 border-t border-border/50">
                     <RestaurantReviewsComponent />
                 </div>
             </div>
 
-            <MenuFilterComponent 
-                isOpen={isFilterOpen}
-                onClose={() => setIsFilterOpen(false)}
-            />
+            {
+                isFilterOpen
+                &&
+                <MenuFilterComponent />
+            }
 
-            <FloatingCartButtonComponent
-                itemCount={itemCount}
-                total={total}
-            />
+            <FloatingCartButtonComponent />
 
             <BottomNav />
         </div>

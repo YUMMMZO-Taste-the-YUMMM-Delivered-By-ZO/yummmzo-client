@@ -13,6 +13,7 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
             className="group w-full"
         >
             <Link to={`/restaurant/${restaurant.id}`}>
+            
                 {/* FIXED: Removed white border. Using primary-tinted (greenish) thin border */}
                 <div className="bg-card/40 backdrop-blur-md rounded-2xl overflow-hidden border border-primary/10 transition-all duration-300 hover:border-primary/40 hover:bg-card/60 hover:shadow-glow">
                     

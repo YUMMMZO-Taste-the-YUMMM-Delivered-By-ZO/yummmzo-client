@@ -69,3 +69,40 @@ export async function getAllRestaurantsService(filters: any) {
         throw error;
     }
 };
+
+export async function getRestaurantDetailsService(restaurantId: number, latitude: number, longitude: number) {
+    try {
+        const response = await axios.get(`${API_ENDPOINT}/${restaurantId}`, {
+            params: {
+                lat: latitude,
+                lng: longitude
+            }
+        });
+        console.log(response.data.data);
+        return response.data.data;
+    } 
+    catch (error) {
+        console.log("Error Getting Restaurant Details :", error);
+        throw error;
+    };
+};
+
+export async function getRestaurantMenuService(restaurantId: number , filters: any) {
+    try {
+        const response = await axios.get(`${API_ENDPOINT}/${restaurantId}/menu` , {
+            params: {
+                search: filters.search,
+                sort: filters.sort,
+                isVeg: filters.isVeg,
+                isBestseller: filters.isBestseller,
+                spiceLevel: filters.spiceLevel
+            }
+        });
+        console.log(response.data.data);
+        return response.data.data;
+    } 
+    catch (error) {
+        console.log("Error Getting Restaurant Menu :", error);
+        throw error;
+    }
+};

@@ -28,3 +28,19 @@ export const convertCoordinatesToAddress = async(latitude: number | null , longi
         return error;
     };
 };
+
+export const geocodeAddressService = async (address: string, city: string, state: string, pincode: string) => {
+    try {
+        const query = `${address}, ${city}, ${state}, ${pincode}, India`;
+        const API_URL = `https://us1.locationiq.com/v1/search?key=${API_KEY}&q=${encodeURIComponent(query)}&format=json&limit=1`;
+        const response = await axios.get(API_URL);
+        return {
+            latitude: parseFloat(response.data[0].lat),  
+            longitude: parseFloat(response.data[0].lon), 
+        };
+    } 
+    catch (error) {
+        console.error("LocationIQ Error:", error);
+        return error;
+    };
+};

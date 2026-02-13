@@ -1,12 +1,8 @@
 import { Link } from "react-router-dom";
 import { ArrowLeft, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import type { ManageAddressesHeaderComponentProps } from "@/types/manageAddressTypes";
 
-export const ManageAddressesHeaderComponent = ({
-    showForm,
-    setShowForm
-}: ManageAddressesHeaderComponentProps) => {
+export const ManageAddressesHeaderComponent = ({showForm , handleShowForm}) => {
     return (
         <header className="sticky top-0 z-40 glass border-b border-border">
             <div className="container mx-auto px-4">
@@ -18,11 +14,16 @@ export const ManageAddressesHeaderComponent = ({
                     </Link>
                     <h1 className="font-semibold">My Addresses</h1>
                     <Button
+                        onClick={handleShowForm}
                         variant="ghost"
                         size="icon"
-                        onClick={() => setShowForm(!showForm)}
                     >
-                        {showForm ? <X className="h-5 w-5" /> : <Plus className="h-5 w-5" />}
+                        {
+                            showForm ? 
+                                <X className="h-5 w-5" /> 
+                                : 
+                                <Plus className="h-5 w-5" />
+                        }
                     </Button>
                 </div>
             </div>

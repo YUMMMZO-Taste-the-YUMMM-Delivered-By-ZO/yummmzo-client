@@ -15,3 +15,29 @@ export interface LoginFormData {
 export interface ForgotPasswordFormData {
     email: string
 };
+
+export interface CreateAddressFormData {
+    type: string,
+    address: string,
+    city: string,
+    state: string,
+    pincode: string,
+    name: string,
+    phone: string,
+    isDefault: boolean,
+    latitude: number | null,
+    longitude: number | null,
+};
+
+export interface UpdateAddressFormData {
+    type?: string,
+    address?: string,
+    city?: string,
+    state?: string,
+    pincode?: string,
+    name?: string,
+    phone?: string,
+    isDefault?: boolean
+    latitude?: number | null,
+    longitude?: number | null,
+};

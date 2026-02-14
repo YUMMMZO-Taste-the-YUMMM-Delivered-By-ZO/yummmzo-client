@@ -2,9 +2,43 @@ import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Star, Clock, Plus, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toggleFavouriteService } from "@/services/favourites.services";
+import { toast } from "@/hooks/use-toast";
 
-export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, index?: number }) {
-    
+export function RestaurantCard({ favouriteIds , restaurant, index = 0 }: { favouriteIds: any , restaurant: any, index?: number }) {
+    // useQueryClient
+    const queryClient = useQueryClient();
+
+    // isFavourite Check
+    const isFavourite = Array.isArray(favouriteIds?.data) && favouriteIds.data.includes(restaurant.id);
+
+    // useMutation
+    const toggleFavouriteMutation = useMutation({
+        mutationFn: toggleFavouriteService,
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["favourites"] });
+            queryClient.invalidateQueries({ queryKey: ["favouriteIds"] });
+            toast({
+                variant: 'default',
+                title: isFavourite ? "Removed from Favourites!" : "Added to Favourites!",
+                description: isFavourite ? "Restaurant removed from your favourites." : "Restaurant added to your favourites list."
+            });
+        },
+        onError: (error) => {
+            toast({
+                variant: 'destructive',
+                title: "Error!",
+                description: `Error toggling Favourite : ${error}`
+            });
+        }
+    });
+
+    // Handler Functions
+    const handleFavouriteToggle = (restaurantId: number) => {
+        toggleFavouriteMutation.mutate(restaurantId);
+    };
+
     return (
         <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -28,13 +62,17 @@ export function RestaurantCard({ restaurant, index = 0 }: { restaurant: any, ind
                         {/* Heart Button - Top Left */}
                         <button
                             onClick={(e) => {
-                                e.preventDefault(); // prevent Link navigation
-                                // TODO: toggle favourite — call API / update Redux state
+                                e.preventDefault();
+                                e.stopPropagation();
+                                handleFavouriteToggle(restaurant.id);
                             }}
                             className="absolute top-2 left-2 w-7 h-7 flex items-center justify-center rounded-full bg-background/60 backdrop-blur-md border border-primary/20 hover:bg-background/80 transition-all"
                         >
-                            <Heart className="h-3.5 w-3.5 text-muted-foreground hover:text-destructive transition-colors" />
-                            {/* TODO: when isFavourite = true → className="text-destructive fill-destructive" */}
+                            <Heart className={`h-3.5 w-3.5 transition-colors ${
+                                isFavourite
+                                    ? "text-destructive fill-destructive"
+                                    : "text-muted-foreground hover:text-destructive"
+                            }`} />
                         </button>
 
                         {/* Rating Badge - Top Right */}

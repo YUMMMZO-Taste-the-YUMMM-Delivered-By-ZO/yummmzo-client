@@ -15,6 +15,7 @@ import { getAllCuisinesService, getAllRestaurantsService, getTopPicksService } f
 import { TopPicksSectionComponent } from "@/components/home/TopPicksSectionComponent";
 import { CuisinePillsComponent } from "@/components/home/CuisinePillsComponent";
 import { useSearchParams } from "react-router-dom";
+import { getFavouriteIdsService } from "@/services/favourites.services";
 
 export default function Home() {
     // useSearchParams
@@ -94,7 +95,7 @@ export default function Home() {
     const { data: topPicksData , isLoading: isTopPicksLoading } = useQuery({
         queryKey: ["topPicks" , latitude , longitude],
         queryFn: () => getTopPicksService(latitude! , longitude!),
-        enabled: !!(isRehydrated && latitude && longitude),  // ✅
+        enabled: !!(isRehydrated && latitude && longitude),
         staleTime: 1000 * 60 * 5
     });
 
@@ -105,9 +106,15 @@ export default function Home() {
             lat: latitude,
             lng: longitude
         }),
-        enabled: !!(isRehydrated && latitude && longitude),  // ✅
+        enabled: !!(isRehydrated && latitude && longitude), 
         staleTime: 1000 * 60 * 5
     });
+
+    const { data: favouriteIds , isLoading: isFavouriteIdsLoading } = useQuery({
+        queryKey: ["favouriteIds"],
+        queryFn: () => getFavouriteIdsService()
+    });
+    console.log(favouriteIds);
 
     const cuisines = Array.isArray(cuisinesData?.cuisines) ? cuisinesData.cuisines : [];
     console.log(cuisines);
@@ -152,6 +159,7 @@ export default function Home() {
                 </div>
                 <TopPicksSectionComponent topPicks={topPicks} isTopPicksLoading={isTopPicksLoading}/>
                 <AllRestaurantsSectionComponent 
+                    favouriteIds={favouriteIds}
                     filteredRestaurants={restaurants}
                     isLoading={isRestaurantsLoading}
                     totalCount={pagination?.total || 0}

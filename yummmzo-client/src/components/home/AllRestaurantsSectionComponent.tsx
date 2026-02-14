@@ -2,12 +2,13 @@ import { Button } from "@/components/ui/button";
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
 
 interface Props {
+    favouriteIds: any[];
     filteredRestaurants: any[];
     isLoading: boolean;
     totalCount: number;
 }
 
-export const AllRestaurantsSectionComponent = ({ filteredRestaurants, isLoading, totalCount }: Props) => {
+export const AllRestaurantsSectionComponent = ({ favouriteIds , filteredRestaurants, isLoading, totalCount }: Props) => {
     
     if (isLoading) {
         return (
@@ -36,6 +37,7 @@ export const AllRestaurantsSectionComponent = ({ filteredRestaurants, isLoading,
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {Array.isArray(filteredRestaurants) && filteredRestaurants.map((restaurant, index) => (
                     <RestaurantCard
+                        favouriteIds={favouriteIds}
                         key={restaurant.id}
                         restaurant={restaurant}
                         index={index}

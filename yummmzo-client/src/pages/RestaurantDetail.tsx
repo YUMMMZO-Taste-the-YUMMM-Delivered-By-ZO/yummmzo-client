@@ -40,23 +40,19 @@ export default function RestaurantDetail() {
         queryFn: () => getRestaurantDetailsService(Number(restaurantId) , latitude! , longitude!),
         enabled: !!restaurantId && !!latitude && !!longitude
     });
-    console.log(restaurantData);
 
     const { data: restaurantMenu , isLoading: isRestaurantMenuLoading } = useQuery({
         queryKey: ["restaurantMenu" , restaurantId],
-        queryFn: () => getRestaurantMenuService(Number(restaurantId)! , filters!),
-        enabled: !!restaurantId && !!latitude && !!longitude
+        queryFn: () => getRestaurantMenuService(Number(restaurantData?.id)! , filters!),
+        enabled: !!restaurantId && !!latitude && !!longitude && !!restaurantData?.id,
     });
-    console.log(restaurantMenu);
 
     // Handler Functions
     const handleShowSearch = () => {
         setShowSearch(!showSearch);
-        console.log(showSearch)
     };
 
     const handleShowItems = (categoryId: any) => {
-        console.log(categoryId);
         setActiveTab(categoryId);
     };
 
@@ -79,7 +75,7 @@ export default function RestaurantDetail() {
             <div className="container mx-auto px-4">
                 <MenuTabsComponent restaurantMenu={restaurantMenu} handleShowItems={handleShowItems} activeTab={activeTab}/>
 
-                <MenuGridComponent restaurantMenu={restaurantMenu} activeTab={activeTab}/>
+                <MenuGridComponent restaurantMenu={restaurantMenu} activeTab={activeTab} restaurantId={restaurantData?.id}/>
 
                 <div className="mt-16 pt-16 border-t border-border/50">
                     <RestaurantReviewsComponent />

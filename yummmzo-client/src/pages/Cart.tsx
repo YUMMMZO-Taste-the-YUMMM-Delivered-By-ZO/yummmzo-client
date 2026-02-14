@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { CartHeaderComponent } from "@/components/cart/CartHeaderComponent";
 import { CartItemCardComponent } from "@/components/cart/CartItemCardComponent";
 import { CheckoutButtonComponent } from "@/components/cart/CheckoutButtonComponent";
@@ -7,65 +6,72 @@ import { EmptyCartComponent } from "@/components/cart/EmptyCartComponent";
 import { OrderSummaryComponent } from "@/components/cart/OrderSummaryComponent";
 import { AvailableCouponsComponent } from "@/components/cart/AvailableCouponsComponent";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { useCart } from "@/contexts/CartContext";
+import { useCart } from "@/hooks/useCart";
+import { useState } from "react";
 
 export default function Cart() {
-    const { items, removeFromCart, updateQuantity, total, clearCart } = useCart();
+    // useCart
+    const { cartData, isCartLoading, clearCart, updateItem } = useCart();
+    const items = cartData?.items ?? [];
+    const bill = cartData?.bill;
+
+    // State Variables
     const [isCouponSelectionOpen, setIsCouponSelectionOpen] = useState(false);
 
-    const deliveryFee = 2.99;
-    const discount = 0;
-    const grandTotal = total + deliveryFee - discount;
-
-    const handleSelectCoupon = (code: string) => {
-        console.log("Applying coupon:", code);
+    // Handler Functions
+    const handleSelectCoupon = () => {
         setIsCouponSelectionOpen(false);
-        // JS logic would go here to update the discount state
     };
 
     return (
         <div className="min-h-screen bg-background pb-40 md:pb-24">
-            <CartHeaderComponent
-                itemsCount={items.length}
-                onClearCart={clearCart}
-            />
+            {/* CartHeaderComponent — itemsCount aur onClearCart pass karo */}
+            <CartHeaderComponent itemsCount={items.length} onClearCart={clearCart} />
 
             <main className="container mx-auto px-4 py-6">
-                {items.length === 0 ? (
-                    <EmptyCartComponent />
-                ) : (
-                    <>
-                        {/* Cart Items */}
-                        <div className="space-y-4 mb-8">
-                            {items.map((item, index) => (
-                                <CartItemCardComponent
-                                    key={item.id}
-                                    item={item}
-                                    index={index}
-                                    onUpdateQuantity={updateQuantity}
-                                    onRemove={removeFromCart}
+                {
+                    (items.length === 0) ? 
+                        (
+                            <EmptyCartComponent />
+                        ) 
+                        : 
+                        (
+                            <>
+                                <div className="space-y-4 mb-8">
+                                    {
+                                        items.map((item: any, index: number) => (
+                                            <CartItemCardComponent
+                                                key={item.menuItemId}
+                                                item={item}
+                                                index={index}
+                                                updateItem={updateItem}
+                                            />
+                                        ))
+                                    }
+                                </div>
+
+                                <CouponSectionComponent onOpenSelection={() => setIsCouponSelectionOpen(true)} />
+
+                                <OrderSummaryComponent
+                                    itemTotal={bill?.itemTotal ?? 0}
+                                    gst={bill?.gst ?? 0}
+                                    deliveryFee={bill?.deliveryFee ?? 0}
+                                    packagingFee={bill?.packagingFee ?? 0}
+                                    total={bill?.total ?? 0}
                                 />
-                            ))}
-                        </div>
-
-                        <CouponSectionComponent onOpenSelection={() => setIsCouponSelectionOpen(true)} />
-
-                        <OrderSummaryComponent
-                            subtotal={total}
-                            deliveryFee={deliveryFee}
-                            discount={discount}
-                            grandTotal={grandTotal}
-                        />
-                    </>
-                )}
+                            </>
+                        )
+                }
             </main>
 
-            {items.length > 0 && (
-                <CheckoutButtonComponent grandTotal={grandTotal} />
-            )}
+            {
+                (items.length > 0) 
+                && 
+                <CheckoutButtonComponent total={bill?.total ?? 0} />
+            }
 
-            <AvailableCouponsComponent 
-                isOpen={isCouponSelectionOpen} 
+            <AvailableCouponsComponent
+                isOpen={isCouponSelectionOpen}
                 onClose={() => setIsCouponSelectionOpen(false)}
                 onSelect={handleSelectCoupon}
             />

@@ -1,12 +1,6 @@
-import type { OrderSummaryComponentProps } from "@/types/cartTypes";
 import { motion } from "framer-motion";
 
-export const OrderSummaryComponent = ({
-    subtotal,
-    deliveryFee,
-    discount,
-    grandTotal
-}: OrderSummaryComponentProps) => {
+export const OrderSummaryComponent = ({ itemTotal, gst, deliveryFee, packagingFee, total }: { itemTotal: number, gst: number, deliveryFee: number, packagingFee: number, total: number }) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -17,22 +11,24 @@ export const OrderSummaryComponent = ({
             <h3 className="font-semibold mb-4">Order Summary</h3>
             <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                    <span className="text-muted-foreground">Subtotal</span>
-                    <span>${subtotal.toFixed(2)}</span>
+                    <span className="text-muted-foreground">Item Total</span>
+                    <span>₹{itemTotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between">
+                    <span className="text-muted-foreground">GST (5%)</span>
+                    <span>₹{gst.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between">
                     <span className="text-muted-foreground">Delivery Fee</span>
-                    <span>${deliveryFee.toFixed(2)}</span>
+                    <span>₹{deliveryFee.toFixed(2)}</span>
                 </div>
-                {discount > 0 && (
-                    <div className="flex justify-between text-success">
-                        <span>Discount</span>
-                        <span>-${discount.toFixed(2)}</span>
-                    </div>
-                )}
+                <div className="flex justify-between">
+                    <span className="text-muted-foreground">Packaging Fee</span>
+                    <span>₹{packagingFee.toFixed(2)}</span>
+                </div>
                 <div className="border-t border-border pt-3 flex justify-between font-bold text-lg">
                     <span>Total</span>
-                    <span>${grandTotal.toFixed(2)}</span>
+                    <span>₹{total.toFixed(2)}</span>
                 </div>
             </div>
         </motion.div>

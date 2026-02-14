@@ -117,13 +117,9 @@ export default function Home() {
     console.log(favouriteIds);
 
     const cuisines = Array.isArray(cuisinesData?.cuisines) ? cuisinesData.cuisines : [];
-    console.log(cuisines);
     const topPicks = Array.isArray(topPicksData?.topPicks) ? topPicksData.topPicks : [];
-    console.log(topPicks);
     const restaurants = Array.isArray(restaurantsData?.restaurants) ? restaurantsData.restaurants : [];
-    console.log(restaurants);
     const pagination = restaurantsData?.pagination || null;
-    console.log(pagination);
 
     return (
         <div className="min-h-screen bg-background pb-24 md:pb-0">

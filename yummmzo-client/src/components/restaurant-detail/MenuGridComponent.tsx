@@ -6,7 +6,7 @@ import { MenuItemCard } from "@/components/cards/MenuItemCard";
 // TODO: Show empty state when filteredItems.length === 0
 // TODO: Show search result count when searchQuery is set
 
-export const MenuGridComponent = ({restaurantMenu , activeTab}: {restaurantMenu: any , activeTab: any}) => {
+export const MenuGridComponent = ({restaurantMenu , activeTab , restaurantId}: {restaurantMenu: any , activeTab: any , restaurantId: number}) => {
     // Modify Data
     const activeCategory = restaurantMenu?.find((category) => category.id === activeTab);
     const menuItems = activeCategory?.items ?? [];
@@ -21,7 +21,7 @@ export const MenuGridComponent = ({restaurantMenu , activeTab}: {restaurantMenu:
             <div className="flex flex-col gap-3">
                 {
                     menuItems.map((item , index) => (
-                        <MenuItemCard key={item.id} item={item} index={item.index} />
+                        <MenuItemCard key={item.id} item={item} index={item.index} restaurantId={Number(restaurantId)} />
                     ))
                 }
             </div>

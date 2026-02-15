@@ -57,3 +57,32 @@ export async function clearCartService() {
         throw error;
     };
 };
+
+export async function applyCouponService(code: string) {
+    try {
+        const response = await axios.post(`${API_ENDPOINT}/coupon`, 
+            { code }, 
+            { withCredentials: true }
+        );
+        console.log(response.data.data);
+        return response.data.data;
+    } 
+    catch (error) {
+        console.log("Error Applying Coupon : ", error);
+        throw error;
+    };
+};
+
+export async function removeCouponService() {
+    try {
+        const response = await axios.delete(`${API_ENDPOINT}/coupon`, { 
+            withCredentials: true 
+        });
+        console.log(response.data.data);
+        return response.data.data;
+    } 
+    catch (error) {
+        console.log("Error Removing Coupon : ", error);
+        throw error;
+    };
+};

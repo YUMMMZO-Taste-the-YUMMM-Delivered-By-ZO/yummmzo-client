@@ -2,12 +2,22 @@ import { ActiveOrderCardComponent } from "@/components/active-orders/ActiveOrder
 import { ActiveOrdersHeaderComponent } from "@/components/active-orders/ActiveOrdersHeaderComponent";
 import { EmptyActiveOrdersComponent } from "@/components/active-orders/EmptyActiveOrdersComponent";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { orders } from "@/data/mockData";
+import { useOrders } from "@/hooks/useOrder";
+
+const ACTIVE_STATUSES = ['PENDING', 'CONFIRMED', 'PREPARING', 'READY', 'OUT_FOR_DELIVERY'];
 
 export default function ActiveOrders() {
-    const activeOrders = orders.filter(
-        (o) => o.status === "preparing" || o.status === "on_the_way"
-    );
+    const { orders, isOrdersLoading } = useOrders();
+
+    const activeOrders = orders.filter((o: any) => ACTIVE_STATUSES.includes(o.orderStatus));
+
+    if(isOrdersLoading){
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Loading...</p>
+            </div>
+        );
+    };
 
     return (
         <div className="min-h-screen bg-background pb-20 md:pb-8">
@@ -16,7 +26,7 @@ export default function ActiveOrders() {
             <main className="container mx-auto px-4 py-6">
                 {activeOrders.length > 0 ? (
                     <div className="space-y-4">
-                        {activeOrders.map((order, index) => (
+                        {activeOrders.map((order: any, index: number) => (
                             <ActiveOrderCardComponent
                                 key={order.id}
                                 order={order}
@@ -32,4 +42,4 @@ export default function ActiveOrders() {
             <BottomNav />
         </div>
     );
-}
+};

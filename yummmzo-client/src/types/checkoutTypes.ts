@@ -9,10 +9,6 @@ export interface Address {
     pincode: string;
 };
 
-export interface DeliveryAddressComponentProps {
-    address?: Address;
-};
-
 export interface CartItem {
     id: number;
     name: string;

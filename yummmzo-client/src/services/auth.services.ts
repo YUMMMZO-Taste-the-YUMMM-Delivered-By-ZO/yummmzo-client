@@ -33,7 +33,7 @@ export async function loginService(formData: LoginFormData) {
     try {
         const response = await axios.post(`${API_ENDPOINT}/login` , formData , {
             withCredentials: true
-        });
+        });        
         return response.data;
     }
     catch (error) {

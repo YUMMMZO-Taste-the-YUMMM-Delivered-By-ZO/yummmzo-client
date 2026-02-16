@@ -1,8 +1,16 @@
 import { motion } from "framer-motion";
 import { Separator } from "@/components/ui/separator";
-import type { BillSummaryComponentProps } from "@/types/orderDetailsTypes";
 
-export const BillSummaryComponent = ({ total }: BillSummaryComponentProps) => {
+interface Props {
+    itemTotal: number;
+    gst: number;
+    deliveryFee: number;
+    packagingFee: number;
+    discount: number;
+    total: number;
+};
+
+export const BillSummaryComponent = ({ itemTotal, gst, deliveryFee, packagingFee, discount, total }: Props) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -14,20 +22,30 @@ export const BillSummaryComponent = ({ total }: BillSummaryComponentProps) => {
             <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Item Total</span>
-                    <span>${(total - 5.99).toFixed(2)}</span>
+                    <span>₹{itemTotal.toFixed(2)}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">GST (5%)</span>
+                    <span>₹{gst.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Delivery Fee</span>
-                    <span>$3.99</span>
+                    <span>₹{deliveryFee.toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Taxes</span>
-                    <span>$2.00</span>
+                    <span className="text-muted-foreground">Packaging Fee</span>
+                    <span>₹{packagingFee.toFixed(2)}</span>
                 </div>
+                {discount > 0 && (
+                    <div className="flex justify-between text-sm">
+                        <span className="text-muted-foreground">Discount</span>
+                        <span className="text-green-500">- ₹{discount.toFixed(2)}</span>
+                    </div>
+                )}
                 <Separator className="my-2" />
                 <div className="flex justify-between font-semibold">
                     <span>Total</span>
-                    <span className="text-primary">${total.toFixed(2)}</span>
+                    <span className="text-primary">₹{total.toFixed(2)}</span>
                 </div>
             </div>
         </motion.div>

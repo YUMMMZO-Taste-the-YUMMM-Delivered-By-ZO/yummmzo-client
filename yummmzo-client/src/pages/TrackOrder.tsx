@@ -1,43 +1,54 @@
 import { useParams } from "react-router-dom";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { orders } from "@/data/mockData";
 import { TrackOrderHeaderComponent } from "@/components/track-order/TrackOrderHeaderComponent";
-import { TrackingMapComponent } from "@/components/track-order/TrackingMapComponent";
 import { ETACardComponent } from "@/components/track-order/ETACardComponent";
-import { DriverInfoCardComponent } from "@/components/track-order/DriverInfoCardComponent";
 import { OrderDetailsCardComponent } from "@/components/track-order/OrderDetailsCardComponent";
 import { DeliveryAddressCardComponent } from "@/components/track-order/DeliveryAddressCardComponent";
-
+import { OrderStatusTimelineComponent } from "@/components/order-details/OrderStatusTimelineComponent";
+import { useOrderById } from "@/hooks/useOrder";
 
 export default function TrackOrder() {
     const { orderId } = useParams();
-    const order = orders.find((o) => o.id === orderId) || orders[0];
+    const { order, isLoading } = useOrderById(orderId);
 
-    const driver = {
-        name: "John Smith",
-        phone: "+1 (555) 987-6543",
-        rating: 4.9,
-        deliveries: 1250,
-        image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
+    if(isLoading){
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Loading...</p>
+            </div>
+        );
+    };
+
+    if(!order){
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Order not found.</p>
+            </div>
+        );
     };
 
     return (
         <div className="min-h-screen bg-background pb-20 md:pb-8">
-            <TrackOrderHeaderComponent orderId={orderId} />
+            <TrackOrderHeaderComponent orderId={order.orderNumber} />
 
             <main className="container mx-auto px-4 py-6 space-y-6">
-                <TrackingMapComponent />
+                {/* Polling auto-updates this every 8s */}
+                <OrderStatusTimelineComponent
+                    orderStatus={order.orderStatus}
+                    statusHistory={order.statusHistory}
+                />
 
-                <ETACardComponent />
-
-                <DriverInfoCardComponent driver={driver} />
+                <ETACardComponent
+                    orderStatus={order.orderStatus}
+                    restaurantDeliveryTime={order.restaurant?.deliveryTime}
+                />
 
                 <OrderDetailsCardComponent order={order} />
 
-                <DeliveryAddressCardComponent deliveryAddress={order.deliveryAddress} />
+                <DeliveryAddressCardComponent deliveryAddress={order.address} />
             </main>
 
             <BottomNav />
         </div>
     );
-}
+};

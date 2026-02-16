@@ -1,8 +1,7 @@
-import type { DeliveryAddressCardComponentProps } from "@/types/trackOrderTypes";
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 
-export const DeliveryAddressCardComponent = ({ deliveryAddress }: DeliveryAddressCardComponentProps) => {
+export const DeliveryAddressCardComponent = ({ deliveryAddress }: any) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -15,7 +14,10 @@ export const DeliveryAddressCardComponent = ({ deliveryAddress }: DeliveryAddres
                 <div>
                     <h3 className="font-semibold">Delivery Address</h3>
                     <p className="text-sm text-muted-foreground">
-                        {deliveryAddress}
+                        {deliveryAddress?.address}, {deliveryAddress?.city}, {deliveryAddress?.state} {deliveryAddress?.pincode}
+                    </p>
+                    <p className="text-xs text-muted-foreground mt-0.5">
+                        {deliveryAddress?.name} · {deliveryAddress?.phone}
                     </p>
                 </div>
             </div>

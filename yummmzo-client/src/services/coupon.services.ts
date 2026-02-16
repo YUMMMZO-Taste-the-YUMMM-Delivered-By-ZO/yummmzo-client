@@ -8,7 +8,6 @@ export async function getCouponsService(restaurantId: number) {
             params: { restaurantId },
             withCredentials: true 
         });
-        console.log(response.data.data);
         return response.data.data;
     }
     catch (error) {
@@ -23,7 +22,6 @@ export async function validateCouponService({ code, restaurantId, cartTotal }: {
             { code, restaurantId, cartTotal }, 
             { withCredentials: true }
         );
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {

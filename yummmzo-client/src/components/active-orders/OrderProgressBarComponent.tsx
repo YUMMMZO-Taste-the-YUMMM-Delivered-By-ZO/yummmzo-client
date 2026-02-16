@@ -7,12 +7,13 @@ interface OrderProgressBarComponentProps {
 export const OrderProgressBarComponent = ({ status }: OrderProgressBarComponentProps) => {
     const getProgress = (status: string) => {
         switch (status) {
-            case "preparing":
-                return 40;
-            case "on_the_way":
-                return 75;
-            default:
-                return 0;
+            case "PENDING":          return 10;
+            case "CONFIRMED":        return 25;
+            case "PREPARING":        return 50;
+            case "READY":            return 75;
+            case "OUT_FOR_DELIVERY": return 90;
+            case "DELIVERED":        return 100;
+            default:                 return 0;
         }
     };
 

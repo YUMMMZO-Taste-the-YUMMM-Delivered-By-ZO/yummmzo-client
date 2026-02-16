@@ -1,7 +1,12 @@
 import { motion } from "framer-motion";
 import { Textarea } from "@/components/ui/textarea";
 
-export const DeliveryInstructionsComponent = () => {
+interface DeliveryInstructionsComponentProps {
+    instruction: string;
+    setInstruction: (val: string) => void;
+}
+
+export const DeliveryInstructionsComponent = ({ instruction, setInstruction }: DeliveryInstructionsComponentProps) => {
     return (
         <motion.section
             initial={{ opacity: 0, y: 20 }}
@@ -10,6 +15,8 @@ export const DeliveryInstructionsComponent = () => {
         >
             <h2 className="font-semibold mb-4">Delivery Instructions</h2>
             <Textarea
+                value={instruction}
+                onChange={(e) => setInstruction(e.target.value)}
                 placeholder="Add delivery instructions (optional)..."
                 className="min-h-[100px]"
             />

@@ -1,8 +1,7 @@
-import type { DeliveryDetailsCardComponentProps } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
 import { MapPin, Phone } from "lucide-react";
 
-export const DeliveryDetailsCardComponent = ({ deliveryAddress }: DeliveryDetailsCardComponentProps) => {
+export const DeliveryDetailsCardComponent = ({ deliveryAddress }: any) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -15,9 +14,9 @@ export const DeliveryDetailsCardComponent = ({ deliveryAddress }: DeliveryDetail
                 <div className="flex items-start gap-3">
                     <MapPin className="h-5 w-5 text-primary mt-0.5" />
                     <div>
-                        <p className="font-medium">Delivery Address</p>
+                        <p className="font-medium">{deliveryAddress?.name}</p>
                         <p className="text-sm text-muted-foreground">
-                            {deliveryAddress}
+                            {deliveryAddress?.address}, {deliveryAddress?.city}, {deliveryAddress?.state} {deliveryAddress?.pincode}
                         </p>
                     </div>
                 </div>
@@ -25,7 +24,7 @@ export const DeliveryDetailsCardComponent = ({ deliveryAddress }: DeliveryDetail
                     <Phone className="h-5 w-5 text-primary" />
                     <div>
                         <p className="font-medium">Contact</p>
-                        <p className="text-sm text-muted-foreground">+1 (555) 123-4567</p>
+                        <p className="text-sm text-muted-foreground">{deliveryAddress?.phone}</p>
                     </div>
                 </div>
             </div>

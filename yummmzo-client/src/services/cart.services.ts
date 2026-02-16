@@ -7,7 +7,6 @@ export async function addCartItemService(payload : {restaurantId: number , menuI
         const response = await axios.post(`${API_ENDPOINT}/items` , payload , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -21,7 +20,6 @@ export async function updateCartItemService(payload: {cartItemId: number , quant
         const response = await axios.patch(`${API_ENDPOINT}/items/${payload.cartItemId}` , {quantity: payload.quantity} , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -35,7 +33,6 @@ export async function getCartService() {
         const response = await axios.get(`${API_ENDPOINT}` , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -49,7 +46,6 @@ export async function clearCartService() {
         const response = await axios.delete(`${API_ENDPOINT}` , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -64,7 +60,6 @@ export async function applyCouponService(code: string) {
             { code }, 
             { withCredentials: true }
         );
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -78,7 +73,6 @@ export async function removeCouponService() {
         const response = await axios.delete(`${API_ENDPOINT}/coupon`, { 
             withCredentials: true 
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {

@@ -8,7 +8,6 @@ export async function createAddressService(finalFormData: CreateAddressFormData)
         const response = await axios.post(`${API_ENDPOINT}` , finalFormData , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -22,7 +21,6 @@ export async function updateAddressService(formData: UpdateAddressFormData , add
         const response = await axios.patch(`${API_ENDPOINT}/${addressId}` , formData , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -36,7 +34,6 @@ export async function markAddressDefaultService(addressId: number) {
         const response = await axios.patch(`${API_ENDPOINT}/${addressId}/default` , {} , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -50,7 +47,6 @@ export async function deleteAddressService(addressId: number) {
         const response = await axios.delete(`${API_ENDPOINT}/${addressId}` , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -64,7 +60,6 @@ export async function getAllAddressesService() {
         const response = await axios.get(`${API_ENDPOINT}` , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {
@@ -78,7 +73,6 @@ export async function getAddressService(addressId: number) {
         const response = await axios.get(`${API_ENDPOINT}/${addressId}` , {
             withCredentials: true
         });
-        console.log(response.data.data);
         return response.data.data;
     } 
     catch (error) {

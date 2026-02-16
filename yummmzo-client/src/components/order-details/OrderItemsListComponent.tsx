@@ -1,7 +1,6 @@
-import type { OrderItemsListComponentProps } from "@/types/orderDetailsTypes";
 import { motion } from "framer-motion";
 
-export const OrderItemsListComponent = ({ items }: OrderItemsListComponentProps) => {
+export const OrderItemsListComponent = ({ items }: any) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -14,7 +13,7 @@ export const OrderItemsListComponent = ({ items }: OrderItemsListComponentProps)
                 {items.map((item) => (
                     <div key={item.id} className="flex items-center gap-3">
                         <img
-                            src={item.image}
+                            src={item.menuItem?.image || `https://placehold.co/48x48/1a1a1a/7ED300?text=${item.name.charAt(0)}`}
                             alt={item.name}
                             className="w-12 h-12 rounded-lg object-cover"
                         />
@@ -25,7 +24,7 @@ export const OrderItemsListComponent = ({ items }: OrderItemsListComponentProps)
                             </p>
                         </div>
                         <span className="font-medium">
-                            ${(item.price * item.quantity).toFixed(2)}
+                            ₹{(item.price * item.quantity).toFixed(2)}
                         </span>
                     </div>
                 ))}

@@ -25,7 +25,7 @@ export const OrderDetailsCardComponent = ({ order }: OrderDetailsCardComponentPr
                 </div>
                 <div className="flex justify-between text-sm font-semibold">
                     <span>Total</span>
-                    <span className="text-primary">${order.total.toFixed(2)}</span>
+                    <span className="text-primary">₹{order.total.toFixed(2)}</span>
                 </div>
             </div>
         </motion.div>

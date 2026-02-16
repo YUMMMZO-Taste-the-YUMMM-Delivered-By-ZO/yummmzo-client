@@ -36,7 +36,7 @@ export default function VerifyEmail() {
                 navigate('/')
             }, 2000);
         },
-        onError: () => {
+        onError: (error: any) => {
             setState('error');
             toast({
                 variant: "destructive",

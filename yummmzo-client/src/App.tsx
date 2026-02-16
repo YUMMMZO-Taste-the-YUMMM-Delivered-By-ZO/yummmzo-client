@@ -1,7 +1,6 @@
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { ThemeProvider } from "@/contexts/ThemeContext";
-import { CartProvider } from "@/contexts/CartContext";
 import Index from "./pages/Index";
 import Home from "./pages/Home";
 import RestaurantDetail from "./pages/RestaurantDetail";
@@ -29,7 +28,6 @@ import ProtectedRoute from "./components/common/ProtectedRoute";
 
 const App = () => (  
     <ThemeProvider>
-      <CartProvider>
         <TooltipProvider>
           <Toaster />
           <BrowserRouter>
@@ -67,7 +65,6 @@ const App = () => (
             </Routes>
           </BrowserRouter>
         </TooltipProvider>
-      </CartProvider>
     </ThemeProvider>
 );
 

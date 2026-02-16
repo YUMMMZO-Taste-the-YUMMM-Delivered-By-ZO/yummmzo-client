@@ -1,20 +1,27 @@
 import { useState } from "react";
 import { BottomNav } from "@/components/layout/BottomNav";
-import { orders } from "@/data/mockData";
 import { OrderHistoryHeaderComponent } from "@/components/order-history/OrderHistoryHeaderComponent";
 import { OrderHistorySearchComponent } from "@/components/order-history/OrderHistorySearchComponent";
 import { OrderHistoryCardComponent } from "@/components/order-history/OrderHistoryCardComponent";
 import { EmptyOrderHistoryComponent } from "@/components/order-history/EmptyOrderHistoryComponent";
+import { useOrders } from "@/hooks/useOrder";
 
 export default function OrderHistory() {
     const [searchQuery, setSearchQuery] = useState("");
-    const pastOrders = orders.filter((o) => o.status === "delivered");
+    const { orders, isOrdersLoading } = useOrders('DELIVERED');
 
-    const filteredOrders = pastOrders.filter(
-        (order) =>
-            order.restaurantName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            order.id.includes(searchQuery)
+    const filteredOrders = orders.filter((order: any) =>
+        order.restaurant?.name?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        order.orderNumber?.toLowerCase().includes(searchQuery.toLowerCase())
     );
+
+    if(isOrdersLoading){
+        return (
+            <div className="min-h-screen bg-background flex items-center justify-center">
+                <p className="text-muted-foreground text-sm">Loading...</p>
+            </div>
+        );
+    };
 
     return (
         <div className="min-h-screen bg-background pb-20 md:pb-8">
@@ -28,7 +35,7 @@ export default function OrderHistory() {
 
                 {filteredOrders.length > 0 ? (
                     <div className="space-y-4">
-                        {filteredOrders.map((order, index) => (
+                        {filteredOrders.map((order: any, index: number) => (
                             <OrderHistoryCardComponent
                                 key={order.id}
                                 order={order}
@@ -44,4 +51,4 @@ export default function OrderHistory() {
             <BottomNav />
         </div>
     );
-}
+};

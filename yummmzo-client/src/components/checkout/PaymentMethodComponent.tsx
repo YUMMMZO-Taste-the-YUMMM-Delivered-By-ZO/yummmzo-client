@@ -8,9 +8,9 @@ export const PaymentMethodComponent = ({ selectedPayment, setSelectedPayment }: 
     const [selectedUpiId, setSelectedUpiId] = useState("");
 
     const paymentOptions = [
-        { id: "card", label: "Credit Card", icon: CreditCard },
-        { id: "upi", label: "UPI", icon: Smartphone },
-        { id: "cod", label: "Cash on Delivery", icon: Banknote },
+        { id: "MOCK_ONLINE", label: "Credit Card", icon: CreditCard },
+        { id: "MOCK_ONLINE", label: "UPI", icon: Smartphone },
+        { id: "COD", label: "Cash on Delivery", icon: Banknote },
     ];
 
     return (
@@ -30,7 +30,7 @@ export const PaymentMethodComponent = ({ selectedPayment, setSelectedPayment }: 
                         >
                             <div 
                                 className="flex items-center justify-between cursor-pointer"
-                                onClick={() => setSelectedPayment(option.id)}
+                                onClick={() => setSelectedPayment(option.id === 'COD' ? 'COD' : 'MOCK_ONLINE')}
                             >
                                 <div className="flex items-center gap-3">
                                     <div className={`p-2 rounded-lg ${isSelected ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>

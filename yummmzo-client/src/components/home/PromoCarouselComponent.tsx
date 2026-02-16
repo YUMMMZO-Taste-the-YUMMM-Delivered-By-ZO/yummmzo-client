@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Ticket, Sparkles, Zap, Flame } from "lucide-react";
+import { ChevronLeft, ChevronRight, Ticket, Sparkles, Zap, Flame, Gift, Star, Coffee, Pizza, Soup, Salad, IceCream } from "lucide-react";
 
 const BANNERS = [
     {
@@ -32,6 +32,76 @@ const BANNERS = [
         icon: Flame,
         gradient: "from-orange-600 via-rose-500 to-orange-600",
         textColor: "text-white"
+    },
+    {
+        id: 4,
+        title: "Flat ₹100 Off",
+        highlight: "BIRYANI BONANZA",
+        code: "BIRYANI100",
+        image: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?q=80&w=800",
+        icon: Gift,
+        gradient: "from-amber-700 via-yellow-600 to-amber-700",
+        textColor: "text-white"
+    },
+    {
+        id: 5,
+        title: "5-Star Meals",
+        highlight: "TOP RATED PICKS",
+        code: "STAR5",
+        image: "https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=800",
+        icon: Star,
+        gradient: "from-violet-700 via-purple-500 to-violet-700",
+        textColor: "text-white"
+    },
+    {
+        id: 6,
+        title: "Morning Deal",
+        highlight: "BREAKFAST & BRUNCH",
+        code: "MORNING30",
+        image: "https://images.unsplash.com/photo-1504630083234-14187a9df0f5?q=80&w=800",
+        icon: Coffee,
+        gradient: "from-stone-700 via-amber-800 to-stone-700",
+        textColor: "text-white"
+    },
+    {
+        id: 7,
+        title: "Pizza Mania",
+        highlight: "2 PIZZAS FOR ₹499",
+        code: "PIZZA499",
+        image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=800",
+        icon: Pizza,
+        gradient: "from-red-700 via-rose-600 to-red-700",
+        textColor: "text-white"
+    },
+    {
+        id: 8,
+        title: "Soup Season",
+        highlight: "WARM UP WITH 30% OFF",
+        code: "SOUP30",
+        image: "https://images.unsplash.com/photo-1547592166-23ac45744acd?q=80&w=800",
+        icon: Soup,
+        gradient: "from-teal-700 via-cyan-600 to-teal-700",
+        textColor: "text-white"
+    },
+    {
+        id: 9,
+        title: "Go Green",
+        highlight: "HEALTHY & FRESH",
+        code: "HEALTHY20",
+        image: "https://images.unsplash.com/photo-1512621776951-a57141f2eefd?q=80&w=800",
+        icon: Salad,
+        gradient: "from-green-700 via-emerald-500 to-green-700",
+        textColor: "text-white"
+    },
+    {
+        id: 10,
+        title: "Sweet Treats",
+        highlight: "DESSERTS AT 40% OFF",
+        code: "SWEET40",
+        image: "https://images.unsplash.com/photo-1551024601-bec78aea704b?q=80&w=800",
+        icon: IceCream,
+        gradient: "from-pink-600 via-fuchsia-500 to-pink-600",
+        textColor: "text-white"
     }
 ];
 
@@ -55,9 +125,9 @@ export const PromoCarouselComponent = () => {
     }, [slideNext]);
 
     const variants = {
-        enter: (direction: number) => ({ x: direction > 0 ? '100%' : '-100%', opacity: 0 }),
+        enter:  (direction: number) => ({ x: direction > 0 ? "100%" : "-100%", opacity: 0 }),
         center: { x: 0, opacity: 1 },
-        exit: (direction: number) => ({ x: direction < 0 ? '100%' : '-100%', opacity: 0 })
+        exit:   (direction: number) => ({ x: direction < 0 ? "100%" : "-100%", opacity: 0 })
     };
 
     const currentBanner = BANNERS[currentIndex];
@@ -84,7 +154,7 @@ export const PromoCarouselComponent = () => {
                     <div className="relative z-10 w-full grid grid-cols-12 items-center px-8 md:px-16">
                         {/* Text Side */}
                         <div className="col-span-8 md:col-span-7">
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, x: -20 }}
                                 animate={{ opacity: 1, x: 0 }}
                                 className={`inline-flex items-center gap-2 px-3 py-1 rounded-full bg-black/10 border border-black/10 ${currentBanner.textColor} mb-4`}
@@ -93,7 +163,7 @@ export const PromoCarouselComponent = () => {
                                 <span className="text-[10px] font-black uppercase tracking-[0.2em]">{currentBanner.highlight}</span>
                             </motion.div>
 
-                            <motion.h2 
+                            <motion.h2
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 className={`text-3xl md:text-5xl font-black ${currentBanner.textColor} leading-none mb-4 italic uppercase tracking-tighter`}
@@ -129,7 +199,7 @@ export const PromoCarouselComponent = () => {
                                     className="w-full h-full object-cover rounded-3xl border-4 border-white/20 shadow-2xl"
                                 />
                             </motion.div>
-                            
+
                             {/* Decorative Floating Circle */}
                             <div className="absolute w-64 h-64 md:w-80 md:h-80 border-2 border-white/10 rounded-full animate-pulse-scale pointer-events-none" />
                         </div>
@@ -153,8 +223,8 @@ export const PromoCarouselComponent = () => {
                 </button>
             </div>
 
-            {/* Premium Indicator Bar */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-3 px-4 py-2 bg-black/20 backdrop-blur-md rounded-full border border-white/5">
+            {/* Indicator Bar */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-30 flex gap-2 px-4 py-2 bg-black/20 backdrop-blur-md rounded-full border border-white/5">
                 {BANNERS.map((_, index) => (
                     <button
                         key={index}
@@ -163,7 +233,7 @@ export const PromoCarouselComponent = () => {
                             setCurrentIndex(index);
                         }}
                         className={`h-1 rounded-full transition-all duration-500 ${
-                            index === currentIndex ? "w-8 bg-primary" : "w-2 bg-white/20"
+                            index === currentIndex ? "w-6 bg-primary" : "w-1.5 bg-white/20"
                         }`}
                     />
                 ))}

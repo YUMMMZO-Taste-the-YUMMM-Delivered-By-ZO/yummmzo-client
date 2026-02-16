@@ -1,11 +1,8 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import axios from 'axios';
 
-const API_ENDPOINT = "http://localhost:3000/api/v1/restaurant";
+const API_ENDPOINT = API_ENDPOINTS.RESTAURANT;
 
-/**
-    * Service 1: Get Top Picks
-    * Always returns { topPicks: [...] } after backend fix
-*/
 export async function getTopPicksService(latitude: number, longitude: number) {
     try {
         if (!latitude || !longitude) return { topPicks: [] };
@@ -28,9 +25,6 @@ export async function getTopPicksService(latitude: number, longitude: number) {
     }
 };
 
-/**
-    * Service 2: Get All Cuisines
-*/
 export async function getAllCuisinesService() {
     try {
         const response = await axios.get(`${API_ENDPOINT}/cuisines`);
@@ -42,10 +36,6 @@ export async function getAllCuisinesService() {
     }
 };
 
-/**
-    * Service 3: Get All Restaurants with Filters & Pagination
-    * Always returns { restaurants: [...], pagination: {...} } after backend fix
-*/
 export async function getAllRestaurantsService(filters: any) {
     try {
         const params = new URLSearchParams();
@@ -80,9 +70,6 @@ export async function getAllRestaurantsService(filters: any) {
     }
 };
 
-/**
-    * Service 4: Get Restaurant Details
-*/
 export async function getRestaurantDetailsService(restaurantId: number, latitude: number, longitude: number) {
     try {
         const response = await axios.get(`${API_ENDPOINT}/${restaurantId}`, {
@@ -96,9 +83,6 @@ export async function getRestaurantDetailsService(restaurantId: number, latitude
     }
 };
 
-/**
-    * Service 5: Get Restaurant Menu with Filters
-*/
 export async function getRestaurantMenuService(restaurantId: number, filters: any) {
     try {
         const params: Record<string, any> = {};

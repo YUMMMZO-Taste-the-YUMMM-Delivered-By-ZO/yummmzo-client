@@ -1,6 +1,7 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import axios from 'axios';
 
-const API_ENDPOINT = "http://localhost:3000/api/v1/order";
+const API_ENDPOINT = API_ENDPOINTS.ORDER;
 
 export async function createOrderService(userId: string, payload: {
     addressId: number;

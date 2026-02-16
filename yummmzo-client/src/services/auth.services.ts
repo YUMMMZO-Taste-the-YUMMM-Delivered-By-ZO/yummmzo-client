@@ -1,7 +1,8 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import type { ForgotPasswordFormData, LoginFormData, SignupFormData } from '@/types/formTypes';
 import axios from 'axios';
 
-const API_ENDPOINT="http://localhost:3000/api/v1/auth";
+const API_ENDPOINT = API_ENDPOINTS.AUTH;
 
 export async function signupService(formData: SignupFormData) {
     try {

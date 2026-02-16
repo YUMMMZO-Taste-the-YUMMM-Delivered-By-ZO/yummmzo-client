@@ -1,6 +1,7 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import axios from 'axios';
 
-const API_ENDPOINT="http://localhost:3000/api/v1/cart";
+const API_ENDPOINT = API_ENDPOINTS.CART;
 
 export async function addCartItemService(payload : {restaurantId: number , menuItemId: number , quantity: number}) {
     try {

@@ -4,19 +4,9 @@ import { motion } from "framer-motion";
 export const TeamGridComponent = () => {
     const team: TeamMember[] = [
         {
-            name: "Alex Chen",
+            name: "Sahil Ladhania",
             role: "CEO & Founder",
-            image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=200",
-        },
-        {
-            name: "Sarah Johnson",
-            role: "CTO",
-            image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200",
-        },
-        {
-            name: "Mike Wilson",
-            role: "Head of Operations",
-            image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200",
+            image: "https://media.licdn.com/dms/image/v2/D5603AQF5PbfBxY6Y9A/profile-displayphoto-scale_400_400/B56ZvrCg7FJEAg-/0/1769174867894?e=1772668800&v=beta&t=lLKeRvu9oIwWGP5sOi0puWC0DUGfYgLL3hCHY8tOxF8",
         },
     ];
 

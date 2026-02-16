@@ -1,6 +1,7 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import axios from 'axios';
 
-const API_ENDPOINT="http://localhost:3000/api/v1/favourites";
+const API_ENDPOINT = API_ENDPOINTS.FAVOURITES;
 
 export async function getFavouritesService() {
     try {

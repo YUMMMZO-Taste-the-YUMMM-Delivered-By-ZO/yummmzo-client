@@ -1,7 +1,8 @@
+import { API_ENDPOINTS } from '@/config/api.config';
 import type { CreateAddressFormData, UpdateAddressFormData } from '@/types/formTypes';
 import axios from 'axios';
 
-const API_ENDPOINT="http://localhost:3000/api/v1/address";
+const API_ENDPOINT = API_ENDPOINTS.ADDRESS;
 
 export async function createAddressService(finalFormData: CreateAddressFormData) {
     try {

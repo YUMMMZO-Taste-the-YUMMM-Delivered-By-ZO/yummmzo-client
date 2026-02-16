@@ -3,7 +3,11 @@ import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
-export const PopularRestaurantsSectionHeaderComponent = () => {
+interface Props {
+    onViewAll: (e: React.MouseEvent) => void;
+}
+
+export const PopularRestaurantsSectionHeaderComponent = ({ onViewAll }: Props) => {
     return (
         <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -20,7 +24,7 @@ export const PopularRestaurantsSectionHeaderComponent = () => {
                     Popular Restaurants
                 </h2>
             </div>
-            <Link to="/home">
+            <Link to="/home" onClick={onViewAll}>
                 <Button variant="outline">
                     View All
                     <ChevronRight className="ml-2 h-4 w-4" />

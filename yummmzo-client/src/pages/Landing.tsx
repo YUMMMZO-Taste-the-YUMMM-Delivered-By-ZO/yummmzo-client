@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RestaurantCard } from "@/components/cards/RestaurantCard";
 import { CTASectionComponent } from "@/components/landing/CTASectionComponent";
@@ -38,9 +38,7 @@ export default function Landing() {
 
     // useSelector
     const { latitude, longitude } = useSelector((state: RootState) => state.userCurrentLocation);
-
-    // State Variables
-    const [isLoading, setIsLoading] = useState(false);
+    const { isAuthenticated } = useSelector((state: RootState) => state.auth);
 
     // Handler Functions
     const handleGetUserCurrentLocation = async () => {
@@ -54,25 +52,41 @@ export default function Landing() {
         } 
         catch (error: any) {
             toast({
-                variant: 'destructive',
+                variant: "destructive",
                 title: "Location Access Denied",
                 description: error.message || "Please enable location to see nearby restaurants."
             });
         }
     };
 
+    const handleAuthGuard = (e: React.MouseEvent) => {
+        if (!isAuthenticated) {
+            e.preventDefault();
+            e.stopPropagation();
+            toast({
+                variant: "destructive",
+                title: "Login Required",
+                description: "Please login to explore restaurants."
+            });
+        }
+    };
+
     // useEffect
     useEffect(() => {
-        handleGetUserCurrentLocation();
+        if (!latitude || !longitude) {
+            handleGetUserCurrentLocation();
+        }
     }, []);
 
     // useQuery
-    const { data: topPicks = [] , isLoading: isTopPicksLoading , error: topPicksError } = useQuery({
-        queryKey: ["topPicks" , latitude , longitude],
-        queryFn: () => getTopPicksService(latitude! , longitude!),
-        enabled: !!(latitude && longitude),
+    const { data: topPicksData, isLoading: isTopPicksLoading } = useQuery({
+        queryKey:  ["topPicks", latitude, longitude],
+        queryFn:   () => getTopPicksService(latitude!, longitude!),
+        enabled:   !!(latitude && longitude),
         staleTime: 1000 * 60 * 5
     });
+
+    const topPicks = Array.isArray(topPicksData?.topPicks) ? topPicksData.topPicks : [];
 
     return (
         <div className="min-h-screen bg-background">
@@ -104,49 +118,63 @@ export default function Landing() {
                         className="grid grid-cols-1 md:grid-cols-3 gap-8"
                     >
                         {howItWorks.map((step, index) => (
-                            <HowItWorksStepCardComponent key={index} step={step} index={index} isLast={index === howItWorks.length - 1} />
+                            <HowItWorksStepCardComponent
+                                key={index}
+                                step={step}
+                                index={index}
+                                isLast={index === howItWorks.length - 1}
+                            />
                         ))}
                     </motion.div>
                 </div>
             </section>
 
-            {/* Popular Restaurants Section*/}
+            {/* Popular Restaurants Section */}
             <section className="py-20 md:py-32">
                 <div className="container mx-auto px-4">
-                    <PopularRestaurantsSectionHeaderComponent />
+                    {/* Pass auth guard to View All button */}
+                    <PopularRestaurantsSectionHeaderComponent onViewAll={handleAuthGuard} />
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
                         {
-                            isLoading ? 
-                            (
-                                [...Array(4)].map((_, i) => (
-                                    <div key={i} className="aspect-square bg-card animate-pulse rounded-2xl border border-border flex flex-col p-4 gap-4">
-                                        <div className="flex-1 bg-muted rounded-xl" />
-                                        <div className="h-4 w-2/3 bg-muted rounded" />
-                                        <div className="h-4 w-1/2 bg-muted rounded" />
-                                    </div>
-                                ))
-                            )
-                            : 
-                            (topPicks.length > 0) ? 
+                            isTopPicksLoading ?
                                 (
-                                    topPicks.map((tp, index) => (
-                                        <RestaurantCard 
-                                            key={tp.id} 
-                                            index={index}
-                                            restaurant={{
-                                                ...tp,
-                                                cuisine: tp.cuisine || "Multi-Cuisine", 
-                                                priceRange: `₹${tp.priceForTwo} for two`,
-                                                isOpen: tp.status === "OPEN" 
-                                            }} 
-                                        />
+                                    [...Array(4)].map((_, i) => (
+                                        <div key={i} className="aspect-square bg-card animate-pulse rounded-2xl border border-border flex flex-col p-4 gap-4">
+                                            <div className="flex-1 bg-muted rounded-xl" />
+                                            <div className="h-4 w-2/3 bg-muted rounded" />
+                                            <div className="h-4 w-1/2 bg-muted rounded" />
+                                        </div>
                                     ))
-                                    ) 
-                                    : 
+                                )
+                                :
+                                topPicks.length > 0 ?
+                                    (
+                                        topPicks.map((tp: any, index: number) => (
+                                            // Wrapper intercepts click before Link inside RestaurantCard fires
+                                            <div
+                                                key={tp.id}
+                                                onClick={handleAuthGuard}
+                                                className="cursor-pointer"
+                                            >
+                                                <RestaurantCard
+                                                    index={index}
+                                                    restaurant={{
+                                                        ...tp,
+                                                        cuisine:    tp.cuisine || "Multi-Cuisine",
+                                                        priceRange: `₹${tp.priceForTwo} for two`,
+                                                        isOpen:     tp.status === "OPEN"
+                                                    }}
+                                                />
+                                            </div>
+                                        ))
+                                    )
+                                    :
                                     (
                                         <div className="col-span-full text-center py-20 bg-card/30 rounded-3xl border-2 border-dashed border-border">
-                                            <p className="text-muted-foreground">No restaurants found nearby. Try searching a different area!</p>
+                                            <p className="text-muted-foreground">
+                                                No restaurants found nearby. Try searching a different area!
+                                            </p>
                                         </div>
                                     )
                         }

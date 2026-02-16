@@ -3,19 +3,46 @@ import { X, SlidersHorizontal, Check, Star, Leaf, Flame } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 
-// TODO: Add props: isOpen, onClose (already structured, just wire them)
-// TODO: Add state for selectedSort, selectedPreferences, selectedSpiceLevel
-// TODO: Wire Apply button to pass filter state up to parent
-// TODO: Wire Reset button to clear all filter states
+const SORT_OPTIONS = [
+    { label: "Recommended",        value: "RECOMMENDED"       },
+    { label: "Price: Low to High", value: "PRICE_LOW_TO_HIGH" },
+    { label: "Price: High to Low", value: "PRICE_HIGH_TO_LOW" },
+    { label: "Rating",             value: "RATING"            },
+];
 
-const sortOptions = ["Recommended", "Price: Low to High", "Price: High to Low", "Rating"];
-const spiceLevels = ["Mild", "Medium", "Hot", "Extra Spicy"];
+const SPICE_OPTIONS = [
+    { label: "Mild",        value: "MILD",        color: "text-warning"     },
+    { label: "Medium",      value: "MEDIUM",      color: "text-warning"     },
+    { label: "Hot",         value: "HOT",         color: "text-destructive"  },
+    { label: "Extra Spicy", value: "EXTRA_SPICY", color: "text-destructive"  },
+];
 
-export const MenuFilterComponent = () => {
-    // State Variables
+interface ActiveMenuFilters {
+    sort:         string;
+    isVeg:        boolean;
+    isBestseller: boolean;
+    spiceLevel:   string;
+}
+
+interface Props {
+    isOpen:   boolean;
+    onClose:  () => void;
+    filters:  ActiveMenuFilters;
+    onApply:  (updated: ActiveMenuFilters) => void;
+}
+
+export const MenuFilterComponent = ({ isOpen, onClose, filters, onApply }: Props) => {
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
-    // useEffect
+    // Local draft state — only committed on "Apply"
+    const [draft, setDraft] = useState<ActiveMenuFilters>({ ...filters });
+
+    // Sync draft when panel opens
+    useEffect(() => {
+        if (isOpen) setDraft({ ...filters });
+    }, [isOpen]);
+
+    // Handle responsive animation
     useEffect(() => {
         const handleResize = () => setIsMobile(window.innerWidth < 768);
         window.addEventListener("resize", handleResize);
@@ -25,22 +52,39 @@ export const MenuFilterComponent = () => {
     const variants = {
         initial: isMobile ? { y: "100%", x: 0 } : { x: "100%", y: 0 },
         animate: { y: 0, x: 0 },
-        exit: isMobile ? { y: "100%", x: 0 } : { x: "100%", y: 0 },
+        exit:    isMobile ? { y: "100%", x: 0 } : { x: "100%", y: 0 },
     };
 
-    // TODO: Replace `true` with isOpen prop
+    const handleReset = () => {
+        setDraft({ sort: "RECOMMENDED", isVeg: false, isBestseller: false, spiceLevel: "" });
+    };
+
+    const handleApply = () => {
+        onApply(draft);
+        onClose();
+    };
+
+    // Count active non-default filters
+    const activeCount = [
+        draft.isVeg,
+        draft.isBestseller,
+        draft.spiceLevel !== "",
+    ].filter(Boolean).length;
+
     return (
         <AnimatePresence>
-            {true && (
+            {isOpen && (
                 <>
+                    {/* Backdrop */}
                     <motion.div
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        // TODO: onClick={onClose}
+                        onClick={onClose}
                         className="fixed inset-0 bg-black/80 backdrop-blur-md z-[100]"
                     />
 
+                    {/* Filter Sheet / Sidebar */}
                     <motion.div
                         variants={variants}
                         initial="initial"
@@ -59,34 +103,47 @@ export const MenuFilterComponent = () => {
                                 <div className="p-2 bg-primary/10 rounded-xl">
                                     <SlidersHorizontal className="w-5 h-5 text-primary" />
                                 </div>
-                                <h2 className="text-heading-sm font-bold">Menu Filters</h2>
+                                <div className="flex items-center gap-2">
+                                    <h2 className="text-heading-sm font-bold">Menu Filters</h2>
+                                    {activeCount > 0 && (
+                                        <span className="px-2 py-0.5 rounded-full bg-primary text-primary-foreground text-[11px] font-bold">
+                                            {activeCount}
+                                        </span>
+                                    )}
+                                </div>
                             </div>
-                            {/* TODO: onClick={onClose} */}
-                            <button className="p-2 hover:bg-muted rounded-full transition-all">
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-muted rounded-full transition-all"
+                            >
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
 
-                        {/* Content */}
+                        {/* Scrollable Content */}
                         <div className="flex-1 p-6 md:p-8 overflow-y-auto space-y-8 scrollbar-hide">
+
                             {/* Sort By */}
                             <section>
                                 <h3 className="text-body-lg font-bold mb-4">Sort By</h3>
                                 <div className="space-y-2">
-                                    {sortOptions.map((option) => (
-                                        <button
-                                            key={option}
-                                            // TODO: onClick to set selectedSort
-                                            className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl border transition-all text-body-sm ${
-                                                option === "Recommended"
-                                                    ? "border-primary bg-primary/5 text-primary"
-                                                    : "border-border bg-background/50 hover:border-primary/30"
-                                            }`}
-                                        >
-                                            {option}
-                                            {option === "Recommended" && <Check className="w-4 h-4" />}
-                                        </button>
-                                    ))}
+                                    {SORT_OPTIONS.map((option) => {
+                                        const isSelected = draft.sort === option.value;
+                                        return (
+                                            <button
+                                                key={option.value}
+                                                onClick={() => setDraft((prev) => ({ ...prev, sort: option.value }))}
+                                                className={`w-full flex items-center justify-between px-4 py-3.5 rounded-2xl border transition-all text-body-sm ${
+                                                    isSelected
+                                                        ? "border-primary bg-primary/5 text-primary"
+                                                        : "border-border bg-background/50 hover:border-primary/30"
+                                                }`}
+                                            >
+                                                {option.label}
+                                                {isSelected && <Check className="w-4 h-4" />}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </section>
 
@@ -94,12 +151,26 @@ export const MenuFilterComponent = () => {
                             <section>
                                 <h3 className="text-body-lg font-bold mb-4">Preferences</h3>
                                 <div className="flex flex-wrap gap-2">
-                                    {/* TODO: Wire active state for each preference */}
-                                    <button className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-border bg-background/40 hover:border-primary transition-all text-body-sm">
+                                    <button
+                                        onClick={() => setDraft((prev) => ({ ...prev, isVeg: !prev.isVeg }))}
+                                        className={`flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all text-body-sm ${
+                                            draft.isVeg
+                                                ? "border-primary bg-primary/10 text-primary"
+                                                : "border-border bg-background/40 hover:border-primary"
+                                        }`}
+                                    >
                                         <Leaf className="w-4 h-4 text-success" />
                                         <span>Veg Only</span>
                                     </button>
-                                    <button className="flex items-center gap-2 px-4 py-2.5 rounded-full border border-border bg-background/40 hover:border-primary transition-all text-body-sm">
+
+                                    <button
+                                        onClick={() => setDraft((prev) => ({ ...prev, isBestseller: !prev.isBestseller }))}
+                                        className={`flex items-center gap-2 px-4 py-2.5 rounded-full border transition-all text-body-sm ${
+                                            draft.isBestseller
+                                                ? "border-primary bg-primary/10 text-primary"
+                                                : "border-border bg-background/40 hover:border-primary"
+                                        }`}
+                                    >
                                         <Star className="w-4 h-4 text-rating fill-rating" />
                                         <span>Bestsellers</span>
                                     </button>
@@ -110,26 +181,44 @@ export const MenuFilterComponent = () => {
                             <section>
                                 <h3 className="text-body-lg font-bold mb-4">Spice Level</h3>
                                 <div className="grid grid-cols-2 gap-3">
-                                    {spiceLevels.map((level) => (
-                                        <button
-                                            key={level}
-                                            // TODO: Wire active state for each spice level
-                                            className="flex items-center gap-2 px-4 py-3 rounded-xl border border-border bg-background/50 hover:border-primary/30 transition-all text-body-sm"
-                                        >
-                                            <Flame className={`w-4 h-4 ${level === "Hot" || level === "Extra Spicy" ? "text-destructive" : "text-warning"}`} />
-                                            {level}
-                                        </button>
-                                    ))}
+                                    {SPICE_OPTIONS.map((level) => {
+                                        const isSelected = draft.spiceLevel === level.value;
+                                        return (
+                                            <button
+                                                key={level.value}
+                                                // Toggle off if already selected
+                                                onClick={() => setDraft((prev) => ({
+                                                    ...prev,
+                                                    spiceLevel: prev.spiceLevel === level.value ? "" : level.value
+                                                }))}
+                                                className={`flex items-center gap-2 px-4 py-3 rounded-xl border transition-all text-body-sm ${
+                                                    isSelected
+                                                        ? "border-primary bg-primary/5 text-primary"
+                                                        : "border-border bg-background/50 hover:border-primary/30"
+                                                }`}
+                                            >
+                                                <Flame className={`w-4 h-4 ${level.color}`} />
+                                                {level.label}
+                                            </button>
+                                        );
+                                    })}
                                 </div>
                             </section>
                         </div>
 
                         {/* Footer */}
                         <div className="p-6 md:p-8 border-t border-border/50 bg-background/50 flex items-center gap-4">
-                            {/* TODO: onClick to reset all filter states */}
-                            <Button variant="ghost" className="flex-1 h-12 md:h-14 rounded-2xl font-bold">Reset</Button>
-                            {/* TODO: onClick to apply filters and close panel */}
-                            <Button className="flex-[2] h-12 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-bold shadow-button hover-lift">
+                            <Button
+                                variant="ghost"
+                                onClick={handleReset}
+                                className="flex-1 h-12 md:h-14 rounded-2xl font-bold"
+                            >
+                                Reset
+                            </Button>
+                            <Button
+                                onClick={handleApply}
+                                className="flex-[2] h-12 md:h-14 bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-bold shadow-button hover-lift"
+                            >
                                 Apply
                             </Button>
                         </div>

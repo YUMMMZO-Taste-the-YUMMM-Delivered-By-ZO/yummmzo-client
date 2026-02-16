@@ -14,8 +14,6 @@ import OrderDetails from "./pages/OrderDetails";
 import Profile from "./pages/Profile";
 import ManageAddresses from "./pages/ManageAddresses";
 import Favorites from "./pages/Favorites";
-import WriteReview from "./pages/WriteReview";
-import SearchResults from "./pages/SearchResults";
 import HelpSupport from "./pages/HelpSupport";
 import About from "./pages/About";
 import TrackOrder from "./pages/TrackOrder";
@@ -43,7 +41,6 @@ const App = () => (
               <Route element={<ProtectedRoute allowedRoles={['CUSTOMER']}/>}>
                 <Route path="/home" element={<Home />} />
                 <Route path="/restaurant/:id" element={<RestaurantDetail />} />
-                <Route path="/restaurant/:id/review" element={<WriteReview />} />
                 <Route path="/cart" element={<Cart />} />
                 <Route path="/checkout" element={<Checkout />} />
                 <Route path="/order/success/:orderId" element={<OrderSuccess />} />
@@ -51,7 +48,6 @@ const App = () => (
                 <Route path="/orders/active" element={<ActiveOrders />} />
                 <Route path="/orders/history" element={<OrderHistory />} />
                 <Route path="/track/:orderId" element={<TrackOrder />} />
-                <Route path="/search" element={<SearchResults />} />
                 <Route path="/favorites" element={<Favorites />} />
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/profile/addresses" element={<ManageAddresses />} />

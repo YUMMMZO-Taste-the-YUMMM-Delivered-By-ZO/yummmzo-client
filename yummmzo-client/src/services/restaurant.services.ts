@@ -101,3 +101,17 @@ export async function getRestaurantMenuService(restaurantId: number, filters: an
         throw error;
     }
 };
+
+export async function buildSmartCartService(restaurantId: number, craving: string) {
+    try {
+        const response = await axios.post(`${API_ENDPOINT}/${restaurantId}/smart-order`, 
+            { craving }, 
+            { withCredentials: true }
+        );
+        return response.data.data;
+    } 
+    catch (error) {
+        console.log("Error Building Smart Cart :", error);
+        throw error;
+    }
+}

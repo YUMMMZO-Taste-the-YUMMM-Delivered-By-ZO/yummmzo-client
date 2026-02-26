@@ -6,13 +6,13 @@ import { MenuTabsComponent, ALL_TAB_ID } from "@/components/restaurant-detail/Me
 import { MenuGridComponent } from "@/components/restaurant-detail/MenuGridComponent";
 import { FloatingCartButtonComponent } from "@/components/restaurant-detail/FloatingCartButtonComponent";
 import { MenuFilterComponent } from "@/components/restaurant-detail/MenuFilterComponent";
-import { RestaurantReviewsComponent } from "@/components/restaurant-detail/RestaurantReviewsComponent";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { getRestaurantDetailsService, getRestaurantMenuService } from "@/services/restaurant.services";
 import { useSelector } from "react-redux";
 import type { RootState } from "@/store";
+import { SmartAIOrderComponent } from "@/components/restaurant-detail/SmartAIOrderComponent";
 
 export default function RestaurantDetail() {
     // useSelector
@@ -114,6 +114,8 @@ export default function RestaurantDetail() {
             <RestaurantHeroImageComponent restaurantData={restaurantData} />
 
             <RestaurantInfoCardComponent restaurantData={restaurantData} />
+
+            <SmartAIOrderComponent restaurantId={Number(restaurantId)}/> 
 
             <div className="container mx-auto px-4">
                 <MenuTabsComponent
